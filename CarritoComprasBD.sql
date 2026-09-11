@@ -1,0 +1,107 @@
+CREATE DATABASE IF NOT EXISTS CarritoComprasDB CHARACTER SET utf8mb4; 
+
+USE CarritoComprasDB;
+
+CREATE TABLE Tipo
+(
+	IdTipo_T INT AUTO_INCREMENT NOT NULL, 
+	Codigo_T VARCHAR(50) NOT NULL, 
+	Tipo_T VARCHAR(50) NOT NULL, 
+
+	CONSTRAINT PK_Tipo PRIMARY KEY (IdTipo_T)
+); 
+
+CREATE TABLE Productos
+(
+	IdProducto_P CHAR(36) NOT NULL DEFAULT (UUID()) , 
+	Codigo_P VARCHAR(20) UNIQUE NOT NULL,
+	Nombre_P VARCHAR(100) NOT NULL,
+	Descripcion_P VARCHAR(300) NOT NULL,
+	IdTipo_P INT NOT NULL, 
+	Precio_P DECIMAL(10, 2) NOT NULL, 
+	Stock_P INT NOT NULL, 
+	Imagen_P VARCHAR(500) NULL, 
+	Activo_P BIT DEFAULT 1 NOT NULL, 
+
+	CONSTRAINT PK_Productos PRIMARY KEY (IdProducto_P), 
+	CONSTRAINT FK_Productos_Tipo FOREIGN KEY (IdTipo_P) REFERENCES Tipo (IdTipo_T)
+); 
+
+CREATE TABLE Estados
+(
+	IdEstado_E INT AUTO_INCREMENT NOT NULL, 
+	Codigo_E VARCHAR(50) NOT NULL, 
+	Estado_E VARCHAR(50) NOT NULL, 
+
+	CONSTRAINT PK_Estados PRIMARY KEY (IdEstado_E)
+); 
+
+CREATE TABLE Compras
+(
+	IdCompra_C INT AUTO_INCREMENT NOT NULL, 
+	Fecha_C DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+	IdEstado_C INT NOT NULL, 
+	Total_C DECIMAL(10, 2) NULL, 
+
+	CONSTRAINT PK_Compras PRIMARY KEY (IdCompra_C), 
+	CONSTRAINT FK_Compras_Estado FOREIGN KEY (IdEstado_C) REFERENCES Estados (IdEstado_E)
+); 
+
+CREATE TABLE Detalle_Compra
+(
+	IdCompra_DC INT NOT NULL, 
+	IdProducto_DC CHAR(36) NOT NULL, 
+	Cantidad_DC INT NOT NULL, 
+	Precio_DC DECIMAL(10, 2) NOT NULL, 
+
+	CONSTRAINT PK_Detalle_Compra PRIMARY KEY (IdCompra_DC, IdProducto_DC), 
+	CONSTRAINT FK_Detalle_Compra_Compras FOREIGN KEY (IdCompra_DC) REFERENCES Compras (IdCompra_C), 
+	CONSTRAINT FK_Detalle_Compra_Productos FOREIGN KEY (IdProducto_DC) REFERENCES Productos (IdProducto_P)
+); 
+
+
+DELIMITER //
+CREATE PROCEDURE sp_RealizarCompra
+(
+	IN ID_ESTADO INT, 
+	IN TOTAL DECIMAL(10, 2)
+)
+BEGIN
+	INSERT INTO Compras (IdEstado_C, Total_C) VALUES (ID_ESTADO, TOTAL); 
+	SELECT LAST_INSERT_ID() AS IdCompra;  
+END // 
+DELIMITER; 
+
+
+DELIMITER // 
+CREATE PROCEDURE sp_AgregarDetalleCompra
+(
+	IN ID_COMPRA INT, 
+	IN ID_PRODUCTO CHAR(36),
+	IN CANTIDAD INT,
+	IN PRECIO DECIMAL(10, 2)
+)
+BEGIN
+	INSERT INTO Detalle_Compra (IdCompra_DC, IdProducto_DC, Cantidad_DC, Precio_DC) VALUES (ID_COMPRA, ID_PRODUCTO, CANTIDAD, PRECIO);
+END //
+DELIMITER; 
+
+
+DELIMITER //
+CREATE PROCEDURE sp_CancelarCompra
+(
+	IN ID_COMPRA INT
+)
+BEGIN
+	UPDATE Compras SET IdEstado_C = 3 WHERE IdCompra_C = ID_COMPRA; 
+END //
+DELIMITER; 
+
+DELIMITER //
+CREATE TRIGGER tr_ActualizarStock_Descontar
+AFTER INSERT ON Detalle_Compra
+FOR EACH ROW
+	BEGIN 
+		UPDATE Productos SET Stock_P = Stock_P - NEW.Cantidad_DC WHERE IdProducto_P = NEW.IdProducto_DC; 
+	END // 
+
