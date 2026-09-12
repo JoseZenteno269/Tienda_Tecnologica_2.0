@@ -5,26 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Tecnologica 2.0</title>
-
+    <!-- <link rel="stylesheet" href="Css/Productos.css"> -->
 </head>
 
 <body>
     <header>
-
+        <h1>Catálogo de Productos</h1>
     </header>
 
     <main>
         <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-productos">
 
+                </tbody>
+            </table>
         </section>
         <section>
 
         </section>
+        <label id="lbl-mensaje"></label>
     </main>
 
     <footer>
 
     </footer>
+    <script type="module" src="Javascript/Producto.js"></script>
 </body>
 
 </html>

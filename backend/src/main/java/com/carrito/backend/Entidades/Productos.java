@@ -7,6 +7,7 @@ public class Productos {
     private String nombre;
     private String descripcion;
     private int idtipo;
+    private String tipo;
     private double precio;
     private int stock;
     private String imagen;
@@ -18,19 +19,22 @@ public class Productos {
         nombre = "Sin definir";
         descripcion = "Sin definir";
         idtipo = 0;
+        tipo = "Sin definir";
         precio = 0;
         stock = 0;
         imagen = "Sin definir";
         activo = false;
     }
 
-    public Productos(String idproducto, String codigo, String nombre, String descripcion, int idtipo, double precio,
+    public Productos(String idproducto, String codigo, String nombre, String descripcion, int idtipo, String tipo,
+            double precio,
             int stock, String imagen, boolean activo) {
         this.idproducto = idproducto;
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idtipo = idtipo;
+        this.tipo = tipo;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
@@ -75,6 +79,14 @@ public class Productos {
 
     public void setIdtipo(int idtipo) {
         this.idtipo = idtipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public double getPrecio() {
