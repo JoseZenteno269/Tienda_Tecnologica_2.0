@@ -6,19 +6,28 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Datos {
 
-    private String host = "jdbc:mysql://localhost:3306/";
-    private String user = "root";
-    private String password = "asusrog7";
-    private String BDname = "CarritoComprasDB";
+    @Autowired
+    private DataSource dataSource;
+
+    // private String host = "jdbc:mysql://localhost:3306/";
+    // private String user = "root";
+    // private String password = "asusrog7";
+    // private String BDname = "CarritoComprasDB";
 
     public Datos() {
 
     }
 
     public Connection obtenerConexion() throws SQLException {
-        return DriverManager.getConnection(host + BDname, user, password);
+        return dataSource.getConnection();
     }
 
     public int ABM(String consulta, Object[] parametros) {

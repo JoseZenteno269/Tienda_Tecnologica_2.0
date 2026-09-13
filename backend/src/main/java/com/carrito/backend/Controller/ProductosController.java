@@ -8,6 +8,7 @@ import com.carrito.backend.Entidades.Productos;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class ProductosController {
 
-    private NegocioProductos negocioProductos = new NegocioProductos();
+    @Autowired
+    private NegocioProductos negocioProductos;
 
     @GetMapping("/Productos")
     public ResponseEntity<ArrayList<Productos>> obtenerProductos() {

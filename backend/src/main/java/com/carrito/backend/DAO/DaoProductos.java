@@ -6,11 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.carrito.backend.Entidades.Productos;
 
+@Repository
 public class DaoProductos {
 
-    Datos datos = new Datos();
+    @Autowired
+    private Datos datos;
 
     public DaoProductos() {
 

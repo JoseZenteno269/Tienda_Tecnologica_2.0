@@ -5,6 +5,9 @@ import { crearCelda, crearCeldaImg, crearButton, crearInput } from "./Funciones.
 const mensaje = document.getElementById("lbl-mensaje");
 mensaje.textContent = "";
 
+let cantidad = 0;
+let setCodigo = new Set();
+
 async function tablaProductos() {
     try {
         const respuesta_prod = await fetch(host);
@@ -20,13 +23,14 @@ async function tablaProductos() {
         producto.forEach(prod => {
             const tr = document.createElement("tr");
 
-            let codigo = crearCelda(prod.codigo);
-            let nombre = crearCelda(prod.nombre);
-            let descripcion = crearCelda(prod.descripcion);
-            let categoria = crearCelda(prod.tipo);
-            let precio = crearCelda(prod.precio);
-            let stock = crearCelda(prod.stock);
-            let imagen = crearCeldaImg(prod.imagen, "");
+            const codigo = crearCelda(prod.codigo);
+            const nombre = crearCelda(prod.nombre);
+            const descripcion = crearCelda(prod.descripcion);
+            const categoria = crearCelda(prod.tipo);
+            const precio = crearCelda(prod.precio);
+            const stock = crearCelda(prod.stock);
+            const imagen = crearCeldaImg(prod.imagen, "");
+            const btnagregar = crearButton(" + ", "");
 
             tr.appendChild(codigo);
             tr.appendChild(nombre);
@@ -35,8 +39,42 @@ async function tablaProductos() {
             tr.appendChild(precio);
             tr.appendChild(stock);
             tr.appendChild(imagen);
+            tr.appendChild(btnagregar);
+
 
             tabla_productos.appendChild(tr);
+
+            btnagregar.addEventListener("click", () => {
+
+                const tablaseleccionados = document.getElementById("tabla-seleccionados");
+                const tr = document.createElement("tr");
+                const btneliminar = crearButton("🗑️", "");
+
+                if (setCodigo.has(prod.codigo)) {
+                    mensaje.textContent = "El producto ya fue seleccionado";
+                }
+                else {
+                    setCodigo.add(prod.codigo);
+
+                    const incrementar = crearInput(cantidad + 1, "number");
+
+                    tr.appendChild(crearCelda(prod.codigo));
+                    tr.appendChild(crearCelda(prod.nombre));
+                    tr.appendChild(crearCelda(prod.descripcion));
+                    tr.appendChild(crearCelda(prod.precio));
+                    tr.appendChild(incrementar);
+                    tr.appendChild(btneliminar);
+
+                    tablaseleccionados.appendChild(tr);
+
+                }
+
+
+                btneliminar.addEventListener("click", () => {
+                    tr.remove();
+                    setCarrito.delete(prod.codigo);
+                });
+            });
 
         });
     } catch (error) {
