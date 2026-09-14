@@ -69,10 +69,9 @@ async function tablaProductos() {
 
                 }
 
-
                 btneliminar.addEventListener("click", () => {
                     tr.remove();
-                    setCarrito.delete(prod.codigo);
+                    setCodigo.delete(prod.codigo);
                 });
             });
 
@@ -85,4 +84,18 @@ async function tablaProductos() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     await tablaProductos();
+});
+
+const btnconfirmar = document.getElementById("btn-confirmar");
+
+btnconfirmar.addEventListener("click", async () => {
+
+});
+
+const btncancelar = document.getElementById("btn-cancelar");
+
+btncancelar.addEventListener("click", () => {
+    const tablaseleccionados = document.getElementById("tabla-seleccionados");
+    tablaseleccionados.innerHTML = "";
+    setCodigo.clear();
 }); 

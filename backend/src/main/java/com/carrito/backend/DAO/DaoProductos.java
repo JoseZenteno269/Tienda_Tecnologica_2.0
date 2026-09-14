@@ -1,11 +1,16 @@
 package com.carrito.backend.DAO;
 
+import com.carrito.backend.BackendApplication;
+import com.carrito.backend.Negocio.NegocioProductos;
+
+import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,11 +19,12 @@ import com.carrito.backend.Entidades.Productos;
 @Repository
 public class DaoProductos {
 
+    private final BackendApplication backendApplication;
     @Autowired
     private Datos datos;
 
-    public DaoProductos() {
-
+    public DaoProductos(BackendApplication backendApplication) {
+        this.backendApplication = backendApplication;
     }
 
     public ArrayList<Productos> obtenerTablaProductos() {
@@ -50,6 +56,33 @@ public class DaoProductos {
             e.printStackTrace();
             return aProductos;
         }
+    }
+
+    public int validarStock(Productos productos) {
+        String consulta = "SELECT CASE WHEN ? <= Stock_P THEN 1 ELSE 0 END AS Stock FROM Productos WHERE Codigo_P = ?";
+
+        Object[] parametros = { productos.getStock(), productos.getCodigo() };
+
+        return datos.EjecutarScalarInt(consulta, parametros);
+    }
+
+    public int agregarCompra(int idestado, double total) {
+        Object[] parametros = { idestado, total };
+
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_RealizarCompra(?, ?)", parametros);
+    }
+
+    public String obtenerIdProducto(String codigo) {
+        String consulta = "SELECT IdProducto_P AS ID FROM Productos WHERE Codigo_P = ?";
+
+        Object[] parametros = { codigo };
+
+        return datos.EjecutarScalarString(consulta, parametros);
+    }
+
+    public boolean agregarDetalle(int idcompra, String idproducto, int cantidad, double precio) {
+        Object[] parametros = { idcompra, idproducto, cantidad, precio };
+        return datos.EjecutarProcedimientoAlmacenado("CALL spAgregarDetalleCompra", parametros) != 0;
     }
 
 }

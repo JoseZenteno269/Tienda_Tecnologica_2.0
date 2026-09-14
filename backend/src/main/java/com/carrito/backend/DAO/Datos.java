@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -48,7 +49,45 @@ public class Datos {
         }
     }
 
-    public Boolean EjecutarProcedimientoAlmacenado(String procedimiento, Object[] parametros) {
+    public int EjecutarScalarInt(String consulta, Object[] parametros) {
+        try (
+                Connection connection = obtenerConexion();
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);) {
+            for (int i = 0; i < parametros.length; i++) {
+                preparedStatement.setObject(i + 1, parametros[i]);
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public String EjecutarScalarString(String consulta, Object[] parametros) {
+        try (
+                Connection connection = obtenerConexion();
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);) {
+            for (int i = 0; i < parametros.length; i++) {
+                preparedStatement.setObject(i + 1, parametros[i]);
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int EjecutarProcedimientoAlmacenado(String procedimiento, Object[] parametros) {
 
         try (
                 Connection connection = obtenerConexion();
@@ -58,10 +97,10 @@ public class Datos {
                 callableStatement.setObject(i + 1, parametros[i]);
             }
 
-            return callableStatement.execute();
+            return callableStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return 0;
         }
 
     }
