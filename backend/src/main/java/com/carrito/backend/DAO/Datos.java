@@ -2,7 +2,6 @@ package com.carrito.backend.DAO;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,7 +86,7 @@ public class Datos {
         return null;
     }
 
-    public int EjecutarProcedimientoAlmacenado(String procedimiento, Object[] parametros) {
+    public int EjecutarProcedimientoAlmacenado(String procedimiento, Object[] parametros, boolean scalar) {
 
         try (
                 Connection connection = obtenerConexion();
@@ -97,7 +96,26 @@ public class Datos {
                 callableStatement.setObject(i + 1, parametros[i]);
             }
 
-            return callableStatement.executeUpdate();
+            if (!scalar) {
+                return callableStatement.executeUpdate();
+            }
+
+            boolean resultadoScalar = callableStatement.execute();
+
+            while (!resultadoScalar && callableStatement.getUpdateCount() != -1) {
+                resultadoScalar = callableStatement.getMoreResults();
+            }
+
+            if (resultadoScalar) {
+                try (ResultSet resultSet = callableStatement.getResultSet()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt(1);
+                    }
+                }
+            }
+
+            return 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;

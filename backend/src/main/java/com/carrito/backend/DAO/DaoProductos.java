@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,13 +17,10 @@ import com.carrito.backend.Entidades.Productos;
 
 @Repository
 public class DaoProductos {
-
-    private final BackendApplication backendApplication;
     @Autowired
     private Datos datos;
 
-    public DaoProductos(BackendApplication backendApplication) {
-        this.backendApplication = backendApplication;
+    public DaoProductos() {
     }
 
     public ArrayList<Productos> obtenerTablaProductos() {
@@ -69,7 +65,7 @@ public class DaoProductos {
     public int agregarCompra(int idestado, double total) {
         Object[] parametros = { idestado, total };
 
-        return datos.EjecutarProcedimientoAlmacenado("CALL sp_RealizarCompra(?, ?)", parametros);
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_RealizarCompra(?, ?)", parametros, true);
     }
 
     public String obtenerIdProducto(String codigo) {
@@ -82,7 +78,8 @@ public class DaoProductos {
 
     public boolean agregarDetalle(int idcompra, String idproducto, int cantidad, double precio) {
         Object[] parametros = { idcompra, idproducto, cantidad, precio };
-        return datos.EjecutarProcedimientoAlmacenado("CALL spAgregarDetalleCompra", parametros) != 0;
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_AgregarDetalleCompra(?, ?, ?, ?)", parametros,
+                false) != 0;
     }
 
 }

@@ -1,16 +1,38 @@
-const host = "http://localhost:8080/api/Productos";
+const host = "http://localhost:8080/api";
 
 import { crearCelda, crearCeldaImg, crearButton, crearInput } from "./Funciones.js";
 
 const mensaje = document.getElementById("lbl-mensaje");
 mensaje.textContent = "";
 
+const mensaje_total = document.getElementById("lbl-total");
+
+
 let cantidad = 0;
 let setCodigo = new Set();
+let carrito = [];
+
+function actualizarTotalCarrito() {
+    const tablaseleccionados = document.getElementById("tabla-seleccionados");
+    const filas = tablaseleccionados.querySelectorAll("tr");
+
+    let totalAcumulado = 0;
+
+    filas.forEach(fila => {
+        const celdas = fila.querySelectorAll("td");
+        const precio = parseFloat(celdas[3].textContent.replace("$", "").trim()) || 0;
+        const inputCantidad = celdas[4].querySelector("input");
+        const cantidad = parseInt(inputCantidad.value) || 1;
+
+        totalAcumulado += (precio * cantidad);
+    });
+
+    mensaje_total.textContent = "$ " + totalAcumulado.toFixed(2);
+}
 
 async function tablaProductos() {
     try {
-        const respuesta_prod = await fetch(host);
+        const respuesta_prod = await fetch(`${host}/${"Productos"}`);
 
         if (!respuesta_prod.ok) {
             mensaje.textContent = "No se conecto a la Base de Datos (Error en respuesta: " + respuesta_prod.status + ")";
@@ -19,6 +41,8 @@ async function tablaProductos() {
 
         const producto = await respuesta_prod.json();
         const tabla_productos = document.getElementById("tabla-productos");
+
+        tabla_productos.innerHTML = "";
 
         producto.forEach(prod => {
             const tr = document.createElement("tr");
@@ -66,12 +90,21 @@ async function tablaProductos() {
                     tr.appendChild(btneliminar);
 
                     tablaseleccionados.appendChild(tr);
+                    actualizarTotalCarrito();
 
+                    const input = incrementar.querySelector("input");
+                    input.addEventListener("input", () => {
+                        if (parseInt(input.value < 1 || input.value === "")) {
+                            input.value = 1;
+                        }
+                        actualizarTotalCarrito();
+                    });
                 }
 
                 btneliminar.addEventListener("click", () => {
                     tr.remove();
                     setCodigo.delete(prod.codigo);
+                    actualizarTotalCarrito();
                 });
             });
 
@@ -89,6 +122,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 const btnconfirmar = document.getElementById("btn-confirmar");
 
 btnconfirmar.addEventListener("click", async () => {
+    const tablaseleccionados = document.getElementById("tabla-seleccionados");
+    const filas = tablaseleccionados.querySelectorAll("tr");
+
+    carrito = [];
+
+    filas.forEach(fila => {
+        const celda = fila.querySelectorAll("td");
+
+        const carrito_ingreso = {
+            codigo: celda[0].textContent.trim(),
+            precio: parseFloat(celda[3].textContent),
+            cantidad: parseInt(celda[4].querySelector("input").value)
+        }
+
+        carrito.push(carrito_ingreso);
+    });
+
+    if (carrito.length === 0) {
+        mensaje.textContent = "Carrio vacio, Seleccione un producto";
+        return;
+    }
+
+    try {
+        const respuesta_car = await fetch(`${host}/${"RealizarCompra"}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(carrito)
+        });
+
+        const datos = await respuesta_car.json();
+
+        if (!respuesta_car.ok) {
+            mensaje.textContent = datos.mensaje;
+            return;
+        }
+
+        tablaseleccionados.innerHTML = "";
+        setCodigo.clear();
+        await tablaProductos();
+        mensaje.textContent = datos.mensaje;
+    }
+    catch (error) {
+        mensaje.textContent = "No se conecto a la Base de Datos";
+    }
 
 });
 

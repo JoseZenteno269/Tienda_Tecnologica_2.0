@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.sql.ast.tree.predicate.BooleanExpressionPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +47,7 @@ public class ProductosController {
             return ResponseEntity.ok(Map.of("mensaje", "Compra realizado con exito"));
         }
 
-        return ResponseEntity.badRequest().body(Map.of("mensaje", "Compra realizado con exito"));
+        return ResponseEntity.badRequest().body(Map.of("mensaje", "Error al procesar la compra"));
     }
 
     private Boolean agregarDetalleCompra(List<CarriroRequest> carrito, boolean exito, int id) {
