@@ -20,4 +20,11 @@ public class NegocioCompras {
     public ArrayList<Compras> obtenerTablaCompras() {
         return daoCompras.obtenerTablaCompras();
     }
+
+    public Boolean cancelarCompra(int idcompra) {
+        Compras compras = new Compras();
+        compras.setIdCompra(idcompra);
+
+        return daoCompras.cancelarCompra(compras);
+    }
 }

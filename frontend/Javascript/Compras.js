@@ -16,6 +16,7 @@ async function tablaCompras() {
 
         const compras = await respuesta_comp.json();
         const tabla_compras = document.getElementById("tabla-compras");
+        tabla_compras.innerHTML = "";
 
         compras.forEach(comp => {
             const tr = document.createElement("tr");
@@ -35,6 +36,34 @@ async function tablaCompras() {
             tr.appendChild(btnverdetalle);
 
             tabla_compras.appendChild(tr);
+
+            btnverdetalle.addEventListener("click", async () => {
+                sessionStorage.setItem("IdCompra", comp.idCompra);
+                window.location.href = "DetalleCompras.html";
+            });
+
+            btncancelar.addEventListener("click", async () => {
+                try {
+                    const respuesta_cancelar = await fetch(`${host}/${"cancelar"}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ idCompra: parseInt(comp.idCompra) })
+                    });
+
+                    const datos = await respuesta_cancelar.json();
+
+                    if (!respuesta_cancelar.ok) {
+                        mensaje.textContent = datos.mensaje;
+                        return;
+                    }
+
+                    mensaje.textContent = datos.mensaje;
+                    await tablaCompras();
+                }
+                catch (error) {
+                    mensaje.textContent = "No se pudo conectar a las Base de Datos";
+                }
+            });
         });
 
     }

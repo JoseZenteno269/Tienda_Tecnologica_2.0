@@ -46,4 +46,9 @@ public class DaoCompras {
         }
     }
 
+    public Boolean cancelarCompra(Compras compras) {
+        Object[] parametros = { compras.getIdCompra() };
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_CancelarCompra(?)", parametros, false) != 0;
+    }
+
 }
