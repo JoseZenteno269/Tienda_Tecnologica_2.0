@@ -1,19 +1,17 @@
 package com.carrito.backend.DAO;
 
-import com.carrito.backend.BackendApplication;
-import com.carrito.backend.Negocio.NegocioProductos;
-
-import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.aspectj.internal.lang.annotation.ajcITD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.carrito.backend.Entidades.Productos;
+import com.carrito.backend.Entidades.Tipo;
 
 @Repository
 public class DaoProductos {

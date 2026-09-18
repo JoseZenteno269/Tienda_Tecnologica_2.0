@@ -3,9 +3,9 @@ package com.carrito.backend.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.carrito.backend.Negocio.NegocioProductos;
+import com.carrito.backend.Negocio.*;
 import com.carrito.backend.DTOs.CarriroRequest;
-import com.carrito.backend.Entidades.Productos;
+import com.carrito.backend.Entidades.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api")
@@ -25,13 +26,16 @@ public class ProductosController {
     @Autowired
     private NegocioProductos negocioProductos;
 
-    @GetMapping("/Productos")
+    @Autowired
+    private NegocioTipo negocioTipo;
+
+    @GetMapping("Productos")
     public ResponseEntity<ArrayList<Productos>> obtenerProductos() {
         ArrayList<Productos> lista = negocioProductos.obtenerProductos();
         return ResponseEntity.ok(lista);
     }
 
-    @PostMapping("/RealizarCompra")
+    @PostMapping("RealizarCompra")
     public ResponseEntity<?> AgregarProducto(@RequestBody List<CarriroRequest> carrito) {
 
         if (validarStock(carrito)) {
@@ -74,5 +78,11 @@ public class ProductosController {
         }
 
         return false;
+    }
+
+    @GetMapping("Categorias")
+    public ResponseEntity<ArrayList<Tipo>> obtenerTipos() {
+        ArrayList<Tipo> lista = negocioTipo.obtenerTipos();
+        return ResponseEntity.ok(lista);
     }
 }

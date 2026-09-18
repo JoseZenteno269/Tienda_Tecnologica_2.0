@@ -35,3 +35,10 @@ export function crearInput(texto, modo) {
     // input.max = max; 
     return crearCeldaControl(input);
 }
+
+export function crearOption(texto, valor) {
+    const option = document.createElement("option");
+    option.textContent = texto;
+    option.value = valor;
+    return option;
+}

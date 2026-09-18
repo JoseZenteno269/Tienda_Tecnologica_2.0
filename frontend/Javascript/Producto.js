@@ -1,12 +1,11 @@
 const host = "http://localhost:8080/api";
 
-import { crearCelda, crearCeldaImg, crearButton, crearInput } from "./Funciones.js";
+import { crearCelda, crearCeldaImg, crearButton, crearInput, crearOption } from "./Funciones.js";
 
 const mensaje = document.getElementById("lbl-mensaje");
 mensaje.textContent = "";
 
 const mensaje_total = document.getElementById("lbl-total");
-
 
 let cantidad = 0;
 let setCodigo = new Set();
@@ -28,6 +27,27 @@ function actualizarTotalCarrito() {
     });
 
     mensaje_total.textContent = "$ " + totalAcumulado.toFixed(2);
+}
+
+async function Categorias() {
+    try {
+        const respuesta_cat = await fetch(`${host}/${"Categorias"}`);
+
+        if (!respuesta_cat.ok) {
+            mensaje.textContent = "No hay Categorias";
+            return;
+        }
+
+        const select = document.getElementById("ddl-categorias");
+        const categorias = await respuesta_cat.json();
+
+        categorias.forEach(cat => {
+            select.appendChild(crearOption(cat.codigo, cat.idTipo));
+        });
+    }
+    catch (error) {
+        mensaje.textContent = "No se pudo conectar a la Base de Datos";
+    }
 }
 
 async function tablaProductos() {
@@ -117,7 +137,12 @@ async function tablaProductos() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     await tablaProductos();
+
 });
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await Categorias();
+})
 
 const btnconfirmar = document.getElementById("btn-confirmar");
 
@@ -175,4 +200,14 @@ btncancelar.addEventListener("click", () => {
     const tablaseleccionados = document.getElementById("tabla-seleccionados");
     tablaseleccionados.innerHTML = "";
     setCodigo.clear();
+});
+
+const txt_texto = document.getElementById("txt-texto");
+const select = document.getElementById("ddl-categorias");
+
+const btnlimpiar = document.getElementById("btn-limpiar");
+
+btnlimpiar.addEventListener("click", () => {
+    txt_texto.value = "";
+    select.value = 0;
 }); 
