@@ -16,8 +16,8 @@ public class NegocioProductos {
 
     }
 
-    public ArrayList<Productos> obtenerProductos() {
-        return daoProductos.obtenerTablaProductos();
+    public ArrayList<Productos> obtenerProductos(String texto, Integer valor) {
+        return daoProductos.obtenerTablaProductos(texto, valor);
     }
 
     public Boolean validarStock(String codigo, int cantidad) {

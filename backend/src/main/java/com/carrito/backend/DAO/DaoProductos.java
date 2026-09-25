@@ -6,12 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.aspectj.internal.lang.annotation.ajcITD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.carrito.backend.Entidades.Productos;
-import com.carrito.backend.Entidades.Tipo;
 
 @Repository
 public class DaoProductos {
@@ -21,30 +19,40 @@ public class DaoProductos {
     public DaoProductos() {
     }
 
-    public ArrayList<Productos> obtenerTablaProductos() {
-        String consulta = "SELECT Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P FROM Productos p INNER JOIN Tipo t ON p.IdTipo_P = t.IdTipo_T";
+    public ArrayList<Productos> obtenerTablaProductos(String texto, Integer valor) {
+        String consulta = "SELECT Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P FROM Productos p INNER JOIN Tipo t ON p.IdTipo_P = t.IdTipo_T WHERE (? = '' OR p.Nombre_P LIKE CONCAT('%', ?, '%') OR p.Codigo_P LIKE CONCAT('%', ?, '%')) AND (? = 0 OR p.IdTipo_P = ?)";
 
         ArrayList<Productos> aProductos = new ArrayList<>();
 
         try (
                 Connection connection = datos.obtenerConexion();
-                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-                ResultSet resultSet = preparedStatement.executeQuery();) {
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta);) {
 
-            while (resultSet.next()) {
-                Productos productos = new Productos();
-                productos.setCodigo(resultSet.getString("Codigo_P"));
-                productos.setNombre(resultSet.getString("Nombre_P"));
-                productos.setDescripcion(resultSet.getString("Descripcion_P"));
-                productos.setTipo(resultSet.getString("Tipo_T"));
-                productos.setPrecio(resultSet.getDouble("Precio_P"));
-                productos.setStock(resultSet.getInt("Stock_P"));
-                productos.setImagen(resultSet.getString("Imagen_P"));
+            String textoBusqueda = (texto != null) ? texto : "";
+            int idCategoria = (valor != null) ? valor : 0;
 
-                aProductos.add(productos);
+            preparedStatement.setObject(1, textoBusqueda);
+            preparedStatement.setObject(2, textoBusqueda);
+            preparedStatement.setObject(3, textoBusqueda);
+            preparedStatement.setObject(4, idCategoria);
+            preparedStatement.setObject(5, idCategoria);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    Productos productos = new Productos();
+                    productos.setCodigo(resultSet.getString("Codigo_P"));
+                    productos.setNombre(resultSet.getString("Nombre_P"));
+                    productos.setDescripcion(resultSet.getString("Descripcion_P"));
+                    productos.setTipo(resultSet.getString("Tipo_T"));
+                    productos.setPrecio(resultSet.getDouble("Precio_P"));
+                    productos.setStock(resultSet.getInt("Stock_P"));
+                    productos.setImagen(resultSet.getString("Imagen_P"));
+
+                    aProductos.add(productos);
+                }
+
+                return aProductos;
             }
-
-            return aProductos;
 
         } catch (SQLException e) {
             e.printStackTrace();

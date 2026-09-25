@@ -30,8 +30,10 @@ public class ProductosController {
     private NegocioTipo negocioTipo;
 
     @GetMapping("Productos")
-    public ResponseEntity<ArrayList<Productos>> obtenerProductos() {
-        ArrayList<Productos> lista = negocioProductos.obtenerProductos();
+    public ResponseEntity<ArrayList<Productos>> obtenerProductos(
+            @RequestParam(name = "texto", required = false, defaultValue = "") String texto,
+            @RequestParam(name = "valor", required = false, defaultValue = "0") Integer valor) {
+        ArrayList<Productos> lista = negocioProductos.obtenerProductos(texto, valor);
         return ResponseEntity.ok(lista);
     }
 

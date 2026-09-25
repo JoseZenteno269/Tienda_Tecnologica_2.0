@@ -50,9 +50,19 @@ async function Categorias() {
     }
 }
 
-async function tablaProductos() {
+async function tablaProductos(texto = "", valor = 0) {
     try {
-        const respuesta_prod = await fetch(`${host}/${"Productos"}`);
+        let url = `${host}/${"Productos"}`;
+
+        if (texto !== "") {
+            url += `?texto=${texto}`;
+        }
+
+        if (valor !== 0) {
+            url += `${texto !== "" ? "&" : "?"}valor=${valor}`;
+        }
+
+        const respuesta_prod = await fetch(url);
 
         if (!respuesta_prod.ok) {
             mensaje.textContent = "No se conecto a la Base de Datos (Error en respuesta: " + respuesta_prod.status + ")";
@@ -210,4 +220,11 @@ const btnlimpiar = document.getElementById("btn-limpiar");
 btnlimpiar.addEventListener("click", () => {
     txt_texto.value = "";
     select.value = 0;
+});
+
+const btnbuscar = document.getElementById("btn-buscar");
+
+btnbuscar.addEventListener("click", async () => {
+    const texto = txt_texto.value.trim();
+    await tablaProductos(texto, parseInt(select.value) || 0);
 }); 
