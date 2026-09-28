@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Tecnologica 2.0</title>
+    <link rel="stylesheet" href="Css/DetalleCompras.css">
 </head>
 
 <body>
@@ -15,22 +16,38 @@
 
     <main>
         <section>
-            <table>
-                <thead>
+            <div class="contenedor-titulo">
+                <h2>Detalle de Compra</h2>
+            </div>
+            <div id="contenedor-detalle">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Precio Unit.</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-detalle-compras">
 
-                </thead>
-                <tbody id="tabla-detalle-compras">
-
-                </tbody>
-            </table>
-            <span>Total: </span>
-            <span id="total">$ 0.00</span>
+                    </tbody>
+                </table>
+            </div>
+            <div class="contenedor-total">
+                <label id="lbl-mensaje"></label>
+                <div class="total-area" id="total-area" style="display:none;">
+                    <span class="total-label">Total de la Compra:</span>
+                    <span class="total-valor" id="total"></span>
+                </div>
+            </div>
         </section>
-        <label id="lbl-mensaje"></label>
     </main>
 
     <footer>
-
+        <p>© 2026 Tienda Tecnológica - Todos los derechos reservados</p>
     </footer>
     <script type="module" src="Javascript/DetalleCompras.js"></script>
 </body>

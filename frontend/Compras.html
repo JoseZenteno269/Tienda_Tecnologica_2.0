@@ -5,30 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Tecnologica 2.0</title>
+    <link rel="stylesheet" href="Css/Compras.css">
 </head>
 
 <body>
     <header>
         <h1>Compras</h1>
-        <a href="Productos.html">Volver a Productos</a>
+        <a href="Productos.html">← Ir al Catálogo</a>
     </header>
 
     <main>
         <section>
-            <table>
-                <thead>
+            <h2 class="titulo_seccion">Historial de Compras Realizadas</h2>
+            <div id="contenedor-compras">
+                <table>
+                    <thead>
+                        <th>N° Compra</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Total</th>
+                        <th>Cancelar</th>
+                        <th>Ver Detalle</th>
+                    </thead>
+                    <tbody id="tabla-compras">
 
-                </thead>
-                <tbody id="tabla-compras">
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <label id="lbl-mensaje"></label>
         </section>
     </main>
 
     <footer>
-
+        <p>© 2026 Tienda Tecnológica - Todos los derechos reservados</p>
     </footer>
     <script type="module" src="Javascript/Compras.js"></script>
 </body>

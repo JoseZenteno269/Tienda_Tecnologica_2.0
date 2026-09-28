@@ -44,15 +44,15 @@ async function tablaDetalleCompras() {
             const imagen = crearCeldaImg(det.imagen);
             const codigo = crearCelda(det.codigo);
             const nombre = crearCelda(det.nombre);
+            const precio = crearCelda("$" + det.precio);
             const cantidad = crearCelda(det.cantidad);
-            const precio = crearCelda(det.precio);
-            const subtotal = crearCelda(det.subTotal);
+            const subtotal = crearCelda("$" + det.subTotal);
 
             tr.appendChild(imagen);
             tr.appendChild(codigo);
             tr.appendChild(nombre);
-            tr.appendChild(cantidad);
             tr.appendChild(precio);
+            tr.appendChild(cantidad);
             tr.appendChild(subtotal);
 
             tabla_detalle_compras.appendChild(tr);
@@ -60,6 +60,12 @@ async function tablaDetalleCompras() {
         });
 
         total.textContent = "$" + calcular;
+        const totalArea = document.getElementById("total-area");
+        const lblTotal = document.getElementById("total");
+        if (detalle.length > 0) {
+            lblTotal.textContent = "$" + calcular.toFixed(2);
+            totalArea.style.display = "flex";
+        }
     }
     catch (error) {
         mensaje.textContent = "No se pudo conectar a las Base de Datos";

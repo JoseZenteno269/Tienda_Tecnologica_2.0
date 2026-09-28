@@ -1,6 +1,6 @@
 const host = "http://localhost:8080/api";
 
-import { crearCelda, crearCeldaImg, crearButton, crearInput } from "./Funciones.js";
+import { crearCelda, crearCeldaImg, crearButton, crearInput, crearCeldaControl, crearCeldaBadgeEstado } from "./Funciones.js";
 
 const mensaje = document.getElementById("lbl-mensaje");
 mensaje.textContent = "";
@@ -23,10 +23,10 @@ async function tablaCompras() {
 
             const idcompra = crearCelda(comp.idCompra);
             const fecha = crearCelda(comp.fecha);
-            const estado = crearCelda(comp.estado);
-            const total = crearCelda(comp.total);
-            const btncancelar = crearButton("Cancelar", "");
-            const btnverdetalle = crearButton("Ver Detalle", "");
+            const estado = crearCeldaBadgeEstado(comp.estado);
+            const total = crearCelda("$" + comp.total);
+            const btncancelar = crearCeldaControl(crearButton("Cancelar", ""));
+            const btnverdetalle = crearCeldaControl(crearButton("Ver Detalle", ""));
 
             tr.appendChild(idcompra);
             tr.appendChild(fecha);

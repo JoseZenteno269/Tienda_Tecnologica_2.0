@@ -4,10 +4,16 @@ export function crearCelda(texto) {
     return td;
 }
 
-function crearCeldaControl(control) {
+export function crearCeldaControl(control) {
     const td = document.createElement("td");
     td.appendChild(control);
     return td;
+}
+
+export function crearSpan(texto) {
+    const span = document.createElement("span");
+    span.textContent = texto;
+    return span;
 }
 
 export function crearCeldaImg(ruta, texto) {
@@ -41,4 +47,24 @@ export function crearOption(texto, valor) {
     option.textContent = texto;
     option.value = valor;
     return option;
+}
+
+export function crearCeldaBadgeEstado(estado) {
+    const td = document.createElement("td");
+    const span = document.createElement("span");
+    const estados = (estado || "").trim().toLowerCase();
+
+    span.textContent = estado || "—";
+    span.classList.add("badge_estado");
+
+    if (estados === "comprado" || estados === "completado") {
+        span.classList.add("comprado");
+    } else if (estados === "cancelado") {
+        span.classList.add("cancelado");
+    } else {
+        span.classList.add("pendiente");
+    }
+
+    td.appendChild(span);
+    return td;
 }

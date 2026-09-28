@@ -5,68 +5,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Tecnologica 2.0</title>
-    <!-- <link rel="stylesheet" href="Css/Productos.css"> -->
+    <link rel="stylesheet" href="Css/Productos.css">
 </head>
 
 <body>
     <header>
-        <h1>Catálogo de Productos</h1>
-        <a href="Compras.html">Ver Compras</a>
+        <h2>Tienda Tecnologica</h2>
+        <a href="Compras.html">📦 Mis Compras</a>
     </header>
 
     <main>
-        <section>
-            <select id="ddl-categorias">
-                <option value="0">Todas las categorías</option>
-            </select>
-            <input type="text" id="txt-texto">
-            <button id="btn-buscar">Buscar</button>
-            <button id="btn-limpiar">Limpiar</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Imagen</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-productos">
+        <section id="section-productos">
+            <div class="contenedor-titulo">
+                <h2>Catálogo de Productos</h2>
+            </div>
+            <div class="contenedor-filtros">
+                <select id="ddl-categorias">
+                    <option value="0">Todas las categorías</option>
+                </select>
+                <div class="grupo-busqueda">
+                    <input type="text" id="txt-texto">
+                    <button id="btn-buscar">
+                        <div class="lupa"></div>
+                    </button>
+                </div>
+                <button id="btn-limpiar">Limpiar</button>
+            </div>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Imagen</th>
+                            <th>Agregar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-productos">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </section>
-        <section>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-seleccionados">
+        <section id="section-carrito">
+            <h2 class="titulo_seccion">Productos Seleccionados</h2>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-seleccionados">
 
-                </tbody>
-            </table>
-            <div>
+                    </tbody>
+                </table>
+            </div>
+            <div class="contenedor-total">
                 <span>Total a Pagar: </span>
                 <label id="lbl-total">$ 0.00</label>
             </div>
-            <button id="btn-confirmar">Confirmar</button>
-            <button id="btn-cancelar">Cancelar</button>
+            <div class="contenedor-acciones">
+                <button id="btn-confirmar">Confirmar</button>
+                <button id="btn-cancelar">Cancelar</button>
+            </div>
+            <label id="lbl-mensaje"></label>
         </section>
-        <label id="lbl-mensaje"></label>
     </main>
 
     <footer>
-
+        <p>© 2026 Tienda Tecnológica - Todos los derechos reservados</p>
     </footer>
     <script type="module" src="Javascript/Producto.js"></script>
 </body>

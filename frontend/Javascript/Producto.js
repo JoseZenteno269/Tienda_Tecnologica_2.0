@@ -1,6 +1,6 @@
 const host = "http://localhost:8080/api";
 
-import { crearCelda, crearCeldaImg, crearButton, crearInput, crearOption } from "./Funciones.js";
+import { crearCelda, crearCeldaImg, crearButton, crearInput, crearOption, crearCeldaControl, crearSpan } from "./Funciones.js";
 
 const mensaje = document.getElementById("lbl-mensaje");
 mensaje.textContent = "";
@@ -84,7 +84,7 @@ async function tablaProductos(texto = "", valor = 0) {
             const precio = crearCelda(prod.precio);
             const stock = crearCelda(prod.stock);
             const imagen = crearCeldaImg(prod.imagen, "");
-            const btnagregar = crearButton(" + ", "");
+            const btnagregar = crearCeldaControl(crearSpan(" + "));
 
             tr.appendChild(codigo);
             tr.appendChild(nombre);
@@ -102,7 +102,7 @@ async function tablaProductos(texto = "", valor = 0) {
 
                 const tablaseleccionados = document.getElementById("tabla-seleccionados");
                 const tr = document.createElement("tr");
-                const btneliminar = crearButton("🗑️", "");
+                const btneliminar = crearSpan("🗑️");
 
                 if (setCodigo.has(prod.codigo)) {
                     mensaje.textContent = "El producto ya fue seleccionado";
@@ -117,7 +117,7 @@ async function tablaProductos(texto = "", valor = 0) {
                     tr.appendChild(crearCelda(prod.descripcion));
                     tr.appendChild(crearCelda(prod.precio));
                     tr.appendChild(incrementar);
-                    tr.appendChild(btneliminar);
+                    tr.appendChild(crearCeldaControl(btneliminar));
 
                     tablaseleccionados.appendChild(tr);
                     actualizarTotalCarrito();
@@ -209,6 +209,7 @@ const btncancelar = document.getElementById("btn-cancelar");
 btncancelar.addEventListener("click", () => {
     const tablaseleccionados = document.getElementById("tabla-seleccionados");
     tablaseleccionados.innerHTML = "";
+    mensaje_total.innerHTML = "";
     setCodigo.clear();
 });
 
