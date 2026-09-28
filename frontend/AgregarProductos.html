@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Tecnologica 2.0</title>
+</head>
+
+<body>
+    <header>
+
+    </header>
+    <main>
+        <h2>Agregar Productos</h2>
+        <section>
+            <table>
+                <tr>
+                    <td>
+                        Codigo: <input id="txt-codigo" type="text" placeholder="TEC-000">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Nombre: <input id="txt-nombre" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Descripcion: <input id="txt-descripcion" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Categoria:
+                        <select id="ddl-categorias">
+                            <option value="0">Categorias</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Precio: <input id="txt-precio" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Stock: <input id="txt-stock" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Imagen: <input id="txt-imagen" type="file">
+                    </td>
+                </tr>
+            </table>
+            <button id="btn-confirmar">Confirmar</button>
+            <br>
+            <label id="lbl-mensaje"></label>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+    <script type="module" src="Javascript/AgregarProductos.js"></script>
+</body>
+
+</html>
