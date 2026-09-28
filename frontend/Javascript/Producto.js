@@ -218,9 +218,10 @@ const select = document.getElementById("ddl-categorias");
 
 const btnlimpiar = document.getElementById("btn-limpiar");
 
-btnlimpiar.addEventListener("click", () => {
+btnlimpiar.addEventListener("click", async () => {
     txt_texto.value = "";
     select.value = 0;
+    await tablaProductos();
 });
 
 const btnbuscar = document.getElementById("btn-buscar");
