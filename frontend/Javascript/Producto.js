@@ -1,4 +1,4 @@
-const host = "http://localhost:8080/api";
+const host = "http://localhost:8080/api/Productos";
 
 import { crearCelda, crearCeldaImg, crearButton, crearInput, crearOption, crearCeldaControl, crearSpan } from "./Funciones.js";
 
@@ -197,6 +197,7 @@ btnconfirmar.addEventListener("click", async () => {
         setCodigo.clear();
         await tablaProductos();
         mensaje.textContent = datos.mensaje;
+        mensaje_total.textContent = "$ 0.00";
     }
     catch (error) {
         mensaje.textContent = "No se conecto a la Base de Datos";
@@ -209,7 +210,7 @@ const btncancelar = document.getElementById("btn-cancelar");
 btncancelar.addEventListener("click", () => {
     const tablaseleccionados = document.getElementById("tabla-seleccionados");
     tablaseleccionados.innerHTML = "";
-    mensaje_total.innerHTML = "";
+    mensaje_total.innerHTML = "$ 0.00";
     setCodigo.clear();
 });
 

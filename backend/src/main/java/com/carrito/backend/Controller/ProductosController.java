@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/Productos")
 @CrossOrigin(origins = "*")
 public class ProductosController {
 

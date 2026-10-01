@@ -19,6 +19,11 @@ public class DaoProductos {
     public DaoProductos() {
     }
 
+    public boolean existeProducto(Productos productos) {
+        Object[] parametros = { productos.getCodigo() };
+        return datos.Existe(parametros, "SELECT EXISTS(SELECT 1 FROM Productos WHERE Codigo_P = ?");
+    }
+
     public ArrayList<Productos> obtenerTablaProductos(String texto, Integer valor) {
         String consulta = "SELECT Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P FROM Productos p INNER JOIN Tipo t ON p.IdTipo_P = t.IdTipo_T WHERE (? = '' OR p.Nombre_P LIKE CONCAT('%', ?, '%') OR p.Codigo_P LIKE CONCAT('%', ?, '%')) AND (? = 0 OR p.IdTipo_P = ?)";
 
@@ -85,6 +90,13 @@ public class DaoProductos {
     public boolean agregarDetalle(int idcompra, String idproducto, int cantidad, double precio) {
         Object[] parametros = { idcompra, idproducto, cantidad, precio };
         return datos.EjecutarProcedimientoAlmacenado("CALL sp_AgregarDetalleCompra(?, ?, ?, ?)", parametros,
+                false) != 0;
+    }
+
+    public boolean agregarProductos(Productos productos) {
+        Object[] parametros = { productos.getCodigo(), productos.getNombre(), productos.getDescripcion(),
+                productos.getIdtipo(), productos.getPrecio(), productos.getStock(), productos.getImagen() };
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_AgregarProducto(?, ?, ?, ?, ?, ?, ?)", parametros,
                 false) != 0;
     }
 

@@ -1,4 +1,4 @@
-const host = "http://localhost:8080/api";
+const host = "http://localhost:8080/api/Compras";
 
 import { crearCelda, crearCeldaImg, crearButton, crearInput, crearCeldaControl, crearCeldaBadgeEstado } from "./Funciones.js";
 
@@ -22,7 +22,8 @@ async function tablaCompras() {
             const tr = document.createElement("tr");
 
             const idcompra = crearCelda(comp.idCompra);
-            const fecha = crearCelda(comp.fecha);
+            const [anio, mes, dia] = comp.fecha.split("-");
+            const fecha = crearCelda(`${dia}-${mes}-${anio}`);
             const estado = crearCeldaBadgeEstado(comp.estado);
             const total = crearCelda("$" + comp.total);
             const btncancelar = crearCeldaControl(crearButton("Cancelar", ""));

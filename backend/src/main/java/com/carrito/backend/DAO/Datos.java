@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.ObjectError;
 
 @Repository
 public class Datos {
@@ -121,6 +122,23 @@ public class Datos {
             return 0;
         }
 
+    }
+
+    public boolean Existe(Object[] parametros, String consulta) {
+        try (Connection connection = obtenerConexion();
+                PreparedStatement preparedStatement = connection.prepareStatement(consulta)) {
+
+            preparedStatement.setObject(1, parametros[0]);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                boolean existe = resultSet.getBoolean(1);
+                return existe;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

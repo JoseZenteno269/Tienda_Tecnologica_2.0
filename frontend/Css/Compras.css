@@ -117,7 +117,7 @@ section h2 {
     border-radius: 10px;
     overflow-y: auto;
     overflow-x: auto;
-    max-height: 65vh;
+    max-height: 55vh;
     background-color: #ffffff;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;

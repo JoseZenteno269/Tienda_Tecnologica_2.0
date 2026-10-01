@@ -22,7 +22,7 @@ public class DaoCompras {
     }
 
     public ArrayList<Compras> obtenerTablaCompras() {
-        String consulta = "SELECT IdCompra_C, Fecha_C, Estado_E, Total_C FROM Compras c INNER JOIN Estados e ON c.IdEstado_C = e.IdEstado_E";
+        String consulta = "SELECT IdCompra_C, Fecha_C, Estado_E, Total_C FROM Compras c INNER JOIN Estados e ON c.IdEstado_C = e.IdEstado_E ORDER BY Fecha_C DESC";
 
         ArrayList<Compras> aCompras = new ArrayList<>();
 

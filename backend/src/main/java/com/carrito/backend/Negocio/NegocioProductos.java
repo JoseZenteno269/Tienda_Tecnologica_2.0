@@ -41,4 +41,24 @@ public class NegocioProductos {
         return daoProductos.agregarDetalle(idcompra, idproducto, cantidad, precio);
     }
 
+    public boolean agregarProductos(String codigo, String nombre, String descripcion, double precio, int idtipo,
+            int stock, String imagen) {
+
+        Productos productos = new Productos();
+
+        productos.setCodigo(codigo);
+        productos.setNombre(nombre);
+        productos.setDescripcion(descripcion);
+        productos.setPrecio(precio);
+        productos.setIdtipo(idtipo);
+        productos.setStock(stock);
+        productos.setImagen(imagen);
+
+        if (!daoProductos.existeProducto(productos)) {
+            return daoProductos.agregarProductos(productos);
+        }
+
+        return false;
+    }
+
 }

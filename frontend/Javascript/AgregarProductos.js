@@ -1,4 +1,4 @@
-const host = "http://localhost:8080/api";
+const host = "http://localhost:8080/api/Productos";
 
 import { crearCelda, crearCeldaImg, crearButton, crearInput, crearOption, crearCeldaControl, crearSpan } from "./Funciones.js";
 
