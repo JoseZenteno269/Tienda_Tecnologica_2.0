@@ -18,11 +18,6 @@ public class Datos {
     @Autowired
     private DataSource dataSource;
 
-    // private String host = "jdbc:mysql://localhost:3306/";
-    // private String user = "root";
-    // private String password = "asusrog7";
-    // private String BDname = "CarritoComprasDB";
-
     public Datos() {
 
     }
