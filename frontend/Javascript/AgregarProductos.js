@@ -28,40 +28,59 @@ async function categorias() {
 
 const btnconfirmar = document.getElementById("btn-confirmar");
 
-btnconfirmar.addEventListener("click", () => {
-    const txtcodigo = document.getElementById("txt-codigo");
-    const codigo = txtcodigo.value.trim();
+btnconfirmar.addEventListener("click", async () => {
+    try{
+        
+        const txtcodigo = document.getElementById("txt-codigo");
+        const codigo = txtcodigo.value.trim();
+    
+        const txtnombre = document.getElementById("txt-nombre");
+        const nombre = txtnombre.value.trim();
+    
+        const txtdescripcion = document.getElementById("txt-descripcion");
+        const descripcion = txtdescripcion.value.trim();
+    
+        const ddlcategorias = document.getElementById("ddl-categorias");
+        const categorias = ddlcategorias.value.trim();
+    
+        const txtprecio = document.getElementById("txt-precio");
+        const precio = txtprecio.value.trim();
+    
+        const txtstock = document.getElementById("txt-stock");
+        const stock = txtstock.value.trim();
+    
+        const txtimagen = document.getElementById("txt-imagen");
+        const imagen = txtimagen.files[0];
+    
+        const formdata = new FormData();
+    
+        formdata.append("codigo", codigo);
+        formdata.append("nombre", nombre);
+        formdata.append("descripcion", descripcion);
+        formdata.append("idTipo", parseInt(categorias));
+        formdata.append("precio", parseFloat(precio));
+        formdata.append("stock", parseInt(stock));
+        formdata.append("imagen", imagen);
 
-    const txtnombre = document.getElementById("txt-nombre");
-    const nombre = txtnombre.value.trim();
+        const respuesta_ap = await fetch(`${host}/${"guardar"}`, {
+            method: "POST",
+            body: formdata
+        });
 
-    const txtdescripcion = document.getElementById("txt-descripcion");
-    const descripcion = txtdescripcion.value.trim();
+        const datos = await respuesta_ap.json();
 
-    const ddlcategorias = document.getElementById("ddl-categorias");
-    const categorias = ddlcategorias.value.trim();
+        if(!respuesta_ap.ok){
+            mensaje.textContent = datos.mensaje;
+            return;
+        }
 
-    const txtprecio = document.getElementById("txt-precio");
-    const precio = txtprecio.value.trim();
-
-    const txtstock = document.getElementById("txt-stock");
-    const stock = txtstock.value.trim();
-
-    const txtimagen = document.getElementById("txt-imagen");
-    const imagen = txtimagen.files[0];
-
-    const formdata = new FormData();
-
-    formdata.append("codigo", codigo);
-    formdata.append("nombre", nombre);
-    formdata.append("descripcion", descripcion);
-    formdata.append("idtipo", parseInt(categorias));
-    formdata.append("precio", parseFloat(precio));
-    formdata.append("stock", parseInt(stock));
-    formdata.append("imagen", imagen);
+        mensaje.textContent = datos.mensaje;
 
 
-    mensaje.textContent = `hola-${codigo}-${nombre}-${descripcion}-${precio}-${stock}-${imagen}`;
+    }
+    catch(error){
+        mensaje.textContent = "No se pudo conectar a la Base de Datos";
+    }
 });
 
 document.addEventListener("DOMContentLoaded", async () => {

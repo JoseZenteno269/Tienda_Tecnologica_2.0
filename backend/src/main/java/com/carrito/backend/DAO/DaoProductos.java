@@ -21,7 +21,7 @@ public class DaoProductos {
 
     public boolean existeProducto(Productos productos) {
         Object[] parametros = { productos.getCodigo() };
-        return datos.Existe(parametros, "SELECT EXISTS(SELECT 1 FROM Productos WHERE Codigo_P = ?");
+        return datos.Existe(parametros, "SELECT EXISTS(SELECT 1 FROM Productos WHERE Codigo_P = ?)");
     }
 
     public ArrayList<Productos> obtenerTablaProductos(String texto, Integer valor) {

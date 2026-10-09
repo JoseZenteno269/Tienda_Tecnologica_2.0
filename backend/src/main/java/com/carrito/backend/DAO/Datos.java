@@ -125,9 +125,12 @@ public class Datos {
             preparedStatement.setObject(1, parametros[0]);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                boolean existe = resultSet.getBoolean(1);
-                return existe;
+                if (resultSet.next()) {
+                    boolean existe = resultSet.getBoolean(1);
+                    return existe;
+                }
+
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -105,3 +105,21 @@ FOR EACH ROW
 		UPDATE Productos SET Stock_P = Stock_P - NEW.Cantidad_DC WHERE IdProducto_P = NEW.IdProducto_DC; 
 	END // 
 
+DELIMITER //
+CREATE PROCEDURE sp_AgregarProducto
+(
+	IN CODIGO VARCHAR(20),
+    IN NOMBRE VARCHAR(100),
+    IN DESCRIPCION VARCHAR(300),
+    IN TIPO INT,
+    IN PRECIO DECIMAL(10,2),
+    IN STOCK INT, 
+    IN IMAGEN VARCHAR(500)
+)
+BEGIN
+	INSERT INTO Productos (Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P)
+    VALUES (CODIGO, NOMBRE, DESCRIPCION, TIPO, PRECIO, STOCK, IMAGEN);
+END//
+
+
+

@@ -1,14 +1,16 @@
 package com.carrito.backend.DTOs;
 
-public class ProductosResponse {
+import org.springframework.web.multipart.MultipartFile;
 
-    public String codigo;
-    public String nombre;
-    public String descripcion;
-    public String tipo;
-    public Double precio;
-    public int stock;
-    public String imagen;
+public class ProductosRequest {
+
+    private String codigo;
+    private String nombre;
+    private String descripcion;
+    private int idtipo;
+    private Double precio;
+    private int stock;
+    private MultipartFile imagen;
 
     public String getCodigo() {
         return codigo;
@@ -34,12 +36,12 @@ public class ProductosResponse {
         this.descripcion = descripcion;
     }
 
-    public String getTipo() {
-        return tipo;
+    public int getIdTipo() {
+        return idtipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setIdTipo(int idtipo) {
+        this.idtipo = idtipo;
     }
 
     public Double getPrecio() {
@@ -58,11 +60,11 @@ public class ProductosResponse {
         this.stock = stock;
     }
 
-    public String getImagen() {
+    public MultipartFile getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(MultipartFile imagen) {
         this.imagen = imagen;
     }
 

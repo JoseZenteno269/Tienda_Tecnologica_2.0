@@ -1,12 +1,17 @@
 package com.carrito.backend.Controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.carrito.backend.Negocio.*;
 import com.carrito.backend.DTOs.CarriroRequest;
+import com.carrito.backend.DTOs.ProductosRequest;
 import com.carrito.backend.Entidades.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +19,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/Productos")
@@ -28,6 +30,8 @@ public class ProductosController {
 
     @Autowired
     private NegocioTipo negocioTipo;
+
+    private final Path carpetaDestino = Paths.get("..", "frontend", "Imagenes");
 
     @GetMapping("Productos")
     public ResponseEntity<ArrayList<Productos>> obtenerProductos(
@@ -87,4 +91,40 @@ public class ProductosController {
         ArrayList<Tipo> lista = negocioTipo.obtenerTipos();
         return ResponseEntity.ok(lista);
     }
+
+    @PostMapping("guardar")
+    public ResponseEntity<?> agregarProductos(@ModelAttribute ProductosRequest request) {
+
+        MultipartFile imagen = request.getImagen();
+
+        if (imagen == null || imagen.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "La imagen es Obligatoria"));
+        }
+
+        try {
+            String nombreArchivo = Paths.get(imagen.getOriginalFilename()).getFileName().toString();
+
+            if (!Files.exists(carpetaDestino)) {
+                Files.createDirectories(carpetaDestino);
+            }
+
+            Path rutaImagenes = carpetaDestino.resolve(nombreArchivo);
+            Files.copy(imagen.getInputStream(), rutaImagenes, StandardCopyOption.REPLACE_EXISTING);
+
+            String ruta = "Imagenes\\" + nombreArchivo;
+
+            if (negocioProductos.agregarProductos(request.getCodigo(), request.getNombre(), request.getDescripcion(),
+                    request.getPrecio(), request.getIdTipo(), request.getStock(), ruta)) {
+                return ResponseEntity.ok(Map.of("mensaje", "Producto agregado correctamente"));
+            }
+
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Ocurrio un error al cargar el producto"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("mensaje", "Error al guardar el archivo de imagen"));
+        }
+
+    }
+
 }
