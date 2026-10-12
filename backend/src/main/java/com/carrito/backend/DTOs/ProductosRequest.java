@@ -8,7 +8,7 @@ public class ProductosRequest {
     private String nombre;
     private String descripcion;
     private int idtipo;
-    private Double precio;
+    private double precio;
     private int stock;
     private MultipartFile imagen;
 
@@ -48,7 +48,7 @@ public class ProductosRequest {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 

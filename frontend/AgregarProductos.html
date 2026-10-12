@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Tecnologica 2.0</title>
+    <link rel="stylesheet" href="Css/AgregarProductos.css">
 </head>
 
 <body>
     <header>
-
+        <header>
+            <h2>Tienda Tecnologica</h2>
+            <a href="Productos.html">🛍️ Comprar Productos</a>
+        </header>
     </header>
     <main>
         <h2>Agregar Productos</h2>
@@ -17,40 +21,42 @@
             <table>
                 <tr>
                     <td>
-                        Codigo: <input id="txt-codigo" type="text" placeholder="TEC-000">
+                        Codigo: <input id="txt-codigo" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]{0,20}"
+                            placeholder="TEC000" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Nombre: <input id="txt-nombre" type="text">
+                        Nombre: <input id="txt-nombre" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,100}" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Descripcion: <input id="txt-descripcion" type="text">
+                        Descripcion: <input id="txt-descripcion" type="text"
+                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,300}">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Categoria:
-                        <select id="ddl-categorias">
-                            <option value="0">Categorias</option>
+                        <select id="ddl-categorias" required>
+                            <option value="0" selected disabled>Categorias</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Precio: <input id="txt-precio" type="text">
+                        Precio: <input id="txt-precio" type="number" min="0" step="0.01" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Stock: <input id="txt-stock" type="number">
+                        Stock: <input id="txt-stock" type="number" min="0" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Imagen: <input id="txt-imagen" type="file" accept="image/*">
+                        Imagen: <input id="txt-imagen" type="file" accept="image/*" required>
                     </td>
                 </tr>
             </table>

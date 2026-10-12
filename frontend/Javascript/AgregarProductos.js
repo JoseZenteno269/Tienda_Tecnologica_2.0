@@ -58,8 +58,8 @@ btnconfirmar.addEventListener("click", async () => {
         formdata.append("nombre", nombre);
         formdata.append("descripcion", descripcion);
         formdata.append("idTipo", parseInt(categorias));
-        formdata.append("precio", parseFloat(precio));
-        formdata.append("stock", parseInt(stock));
+        formdata.append("precio", precio);
+        formdata.append("stock", stock);
         formdata.append("imagen", imagen);
 
         const respuesta_ap = await fetch(`${host}/${"guardar"}`, {

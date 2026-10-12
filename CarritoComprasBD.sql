@@ -117,7 +117,7 @@ CREATE PROCEDURE sp_AgregarProducto
     IN IMAGEN VARCHAR(500)
 )
 BEGIN
-	INSERT INTO Productos (Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P)
+	INSERT INTO Productos (Codigo_P, Nombre_P, Descripcion_P, IdTipo_P, Precio_P, Stock_P, Imagen_P)
     VALUES (CODIGO, NOMBRE, DESCRIPCION, TIPO, PRECIO, STOCK, IMAGEN);
 END//
 

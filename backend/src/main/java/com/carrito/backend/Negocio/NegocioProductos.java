@@ -54,7 +54,7 @@ public class NegocioProductos {
         productos.setStock(stock);
         productos.setImagen(imagen);
 
-        if (!daoProductos.existeProducto(productos)) {
+        if (daoProductos.existeProducto(productos) == false) {
             return daoProductos.agregarProductos(productos);
         }
 
