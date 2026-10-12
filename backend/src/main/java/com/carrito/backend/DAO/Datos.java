@@ -8,17 +8,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class Datos {
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
-    public Datos() {
-
+    public Datos(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public Connection obtenerConexion() throws SQLException {

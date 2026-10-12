@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.carrito.backend.DTOs.DetalleComprasResponse;
@@ -14,11 +13,10 @@ import com.carrito.backend.DTOs.DetalleComprasResponse;
 @Repository
 public class DaoDetalleCompras {
 
-    @Autowired
-    private Datos datos;
+    private final Datos datos;
 
-    public DaoDetalleCompras() {
-
+    public DaoDetalleCompras(Datos datos) {
+        this.datos = datos;
     }
 
     public ArrayList<DetalleComprasResponse> obtenerTablaDetalleCompras(int idcompra) {

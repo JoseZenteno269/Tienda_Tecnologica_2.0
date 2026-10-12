@@ -2,7 +2,6 @@ package com.carrito.backend.Negocio;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.carrito.backend.DAO.DaoCompras;
 import com.carrito.backend.Entidades.Compras;
@@ -10,11 +9,10 @@ import com.carrito.backend.Entidades.Compras;
 @Service
 public class NegocioCompras {
 
-    @Autowired
-    private DaoCompras daoCompras;
+    private final DaoCompras daoCompras;
 
-    public NegocioCompras() {
-
+    public NegocioCompras(DaoCompras daoCompras) {
+        this.daoCompras = daoCompras;
     }
 
     public ArrayList<Compras> obtenerTablaCompras() {

@@ -7,17 +7,14 @@ import com.carrito.backend.DTOs.CarriroRequest;
 import com.carrito.backend.DTOs.ProductosRequest;
 import com.carrito.backend.Entidades.*;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class ProductosController {
 
-    @Autowired
-    private NegocioProductos negocioProductos;
+    private final NegocioProductos negocioProductos;
+    private final NegocioTipo negocioTipo;
 
-    @Autowired
-    private NegocioTipo negocioTipo;
+    public ProductosController(NegocioProductos negocioProductos, NegocioTipo negocioTipo) {
+        this.negocioProductos = negocioProductos;
+        this.negocioTipo = negocioTipo;
+    }
 
     private final Path carpetaDestino = Paths.get("frontend", "Imagenes");
 

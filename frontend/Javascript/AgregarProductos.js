@@ -76,7 +76,6 @@ btnconfirmar.addEventListener("click", async () => {
 
         mensaje.textContent = datos.mensaje;
 
-
     }
     catch(error){
         mensaje.textContent = "No se pudo conectar a la Base de Datos";

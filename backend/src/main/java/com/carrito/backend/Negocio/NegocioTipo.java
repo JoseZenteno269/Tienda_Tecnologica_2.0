@@ -1,6 +1,5 @@
 package com.carrito.backend.Negocio;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carrito.backend.DAO.DaoTipo;
@@ -11,11 +10,10 @@ import com.carrito.backend.Entidades.Tipo;
 @Service
 public class NegocioTipo {
 
-    @Autowired
-    private DaoTipo daoTipo;
+    private final DaoTipo daoTipo;
 
-    public NegocioTipo() {
-
+    public NegocioTipo(DaoTipo daoTipo) {
+        this.daoTipo = daoTipo;
     }
 
     public ArrayList<Tipo> obtenerTipos() {

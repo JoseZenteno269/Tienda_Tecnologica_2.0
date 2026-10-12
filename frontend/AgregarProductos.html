@@ -10,63 +10,86 @@
 
 <body>
     <header>
-        <header>
-            <h2>Tienda Tecnologica</h2>
-            <a href="Productos.html">🛍️ Comprar Productos</a>
-        </header>
+        <h1>Tienda Tecnologica</h1>
+        <a href="Productos.html">🛍️ Comprar Productos</a>
     </header>
     <main>
-        <h2>Agregar Productos</h2>
         <section>
-            <table>
-                <tr>
-                    <td>
-                        Codigo: <input id="txt-codigo" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]{0,20}"
-                            placeholder="TEC000" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Nombre: <input id="txt-nombre" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,100}" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Descripcion: <input id="txt-descripcion" type="text"
-                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,300}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Categoria:
-                        <select id="ddl-categorias" required>
-                            <option value="0" selected disabled>Categorias</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Precio: <input id="txt-precio" type="number" min="0" step="0.01" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Stock: <input id="txt-stock" type="number" min="0" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Imagen: <input id="txt-imagen" type="file" accept="image/*" required>
-                    </td>
-                </tr>
-            </table>
-            <button id="btn-confirmar">Confirmar</button>
-            <br>
-            <label id="lbl-mensaje"></label>
+            <div>
+                <h2>Agregar Productos</h2>
+                <table>
+                    <tr>
+                        <td style="padding-right: 60px;">
+                            Codigo:
+                        </td>
+                        <td>
+                            <input id="txt-codigo" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]{0,20}" placeholder="TEC000" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nombre:
+                        </td>
+                        <td>
+                            <input id="txt-nombre" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,100}" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Descripcion:
+                        </td>
+                        <td>
+                            <input id="txt-descripcion" type="text"
+                                pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9 ]{0,300}" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Categoria:
+                        </td>
+                        <td>
+                            <select id="ddl-categorias" required>
+                                <option value="0" selected disabled>Categorias</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Precio:
+                        </td>
+                        <td>
+                            <input id="txt-precio" type="number" min="0" step="0.01" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Stock:
+                        </td>
+                        <td>
+                            <input id="txt-stock" type="number" min="0" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Imagen:
+                        </td>
+                        <td>
+                            <input id="txt-imagen" type="file" accept="image/*" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button id="btn-confirmar">Confirmar</button>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <label id="lbl-mensaje"></label>
+            </div>
         </section>
     </main>
     <footer>
-
+        <p>© 2026 Tienda Tecnológica - Todos los derechos reservados</p>
     </footer>
     <script type="module" src="Javascript/AgregarProductos.js"></script>
 </body>

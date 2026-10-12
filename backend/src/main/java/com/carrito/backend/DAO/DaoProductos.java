@@ -6,17 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.carrito.backend.Entidades.Productos;
 
 @Repository
 public class DaoProductos {
-    @Autowired
-    private Datos datos;
 
-    public DaoProductos() {
+    private final Datos datos;
+
+    public DaoProductos(Datos datos) {
+        this.datos = datos;
     }
 
     public boolean existeProducto(Productos productos) {
@@ -98,6 +98,29 @@ public class DaoProductos {
                 productos.getIdtipo(), productos.getPrecio(), productos.getStock(), productos.getImagen() };
         return datos.EjecutarProcedimientoAlmacenado("CALL sp_AgregarProducto(?, ?, ?, ?, ?, ?, ?)", parametros,
                 false) != 0;
+    }
+
+    // private String texto(String palabra){
+    // String letras = "";
+    // String numeros = "";
+    // for (char c : palabra.trim().toCharArray()) {
+    // if(Character.isLetter(c)){
+    // letras += String.valueOf(c);
+    // }
+    // else if(Character.isDigit(c)){
+    // numeros += String.valueOf(c);
+    // }
+    // }
+
+    // String codigo = "";
+    // codigo += letras + (Integer.parseInt(numeros) + 1);
+
+    // return codigo;
+    // }
+
+    public String obtenerUltimoCodigo(Productos productos) {
+        Object[] parametros = { productos.getCodigo() };
+        return datos.EjecutarScalarString("SELECT Codigo_P FROM Productos ORDER BY Codigo_P DESC LIMIT 1", parametros);
     }
 
 }

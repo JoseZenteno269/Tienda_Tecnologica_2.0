@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import com.carrito.backend.DAO.DaoProductos;
 import com.carrito.backend.Entidades.Productos;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class NegocioProductos {
 
-    @Autowired
-    private DaoProductos daoProductos;
+    private final DaoProductos daoProductos;
 
-    public NegocioProductos() {
-
+    public NegocioProductos(DaoProductos daoProductos) {
+        this.daoProductos = daoProductos;
     }
 
     public ArrayList<Productos> obtenerProductos(String texto, Integer valor) {

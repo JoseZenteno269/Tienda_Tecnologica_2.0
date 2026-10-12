@@ -3,7 +3,6 @@ package com.carrito.backend.Controller;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin(origins = "*")
 public class ComprasController {
 
-    @Autowired
-    private NegocioCompras negocioCompras;
+    private final NegocioCompras negocioCompras;
+
+    public ComprasController(NegocioCompras negocioCompras) {
+        this.negocioCompras = negocioCompras;
+    }
 
     @GetMapping("Compras")
     public ResponseEntity<ArrayList<Compras>> obtenerTablaCompras() {
