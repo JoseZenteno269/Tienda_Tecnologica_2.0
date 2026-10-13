@@ -25,7 +25,7 @@ public class DaoProductos {
     }
 
     public ArrayList<Productos> obtenerTablaProductos(String texto, Integer valor) {
-        String consulta = "SELECT Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P FROM Productos p INNER JOIN Tipo t ON p.IdTipo_P = t.IdTipo_T WHERE (? = '' OR p.Nombre_P LIKE CONCAT('%', ?, '%') OR p.Codigo_P LIKE CONCAT('%', ?, '%')) AND (? = 0 OR p.IdTipo_P = ?) ORDER BY Codigo_P ASC";
+        String consulta = "SELECT Codigo_P, Nombre_P, Descripcion_P, Tipo_T, Precio_P, Stock_P, Imagen_P, Activo_P FROM Productos p INNER JOIN Tipo t ON p.IdTipo_P = t.IdTipo_T WHERE (? = '' OR p.Nombre_P LIKE CONCAT('%', ?, '%') OR p.Codigo_P LIKE CONCAT('%', ?, '%')) AND (? = 0 OR p.IdTipo_P = ?) ORDER BY Codigo_P ASC";
 
         ArrayList<Productos> aProductos = new ArrayList<>();
 
@@ -52,6 +52,7 @@ public class DaoProductos {
                     productos.setPrecio(resultSet.getDouble("Precio_P"));
                     productos.setStock(resultSet.getInt("Stock_P"));
                     productos.setImagen(resultSet.getString("Imagen_P"));
+                    productos.setActivo(resultSet.getBoolean("Activo_P"));
 
                     aProductos.add(productos);
                 }
