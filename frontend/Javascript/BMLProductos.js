@@ -25,10 +25,10 @@ async function Productos() {
             const categoria = crearCelda(p.tipo);
             const precio = crearCelda(p.precio);
             const stock = crearCelda(p.stock);
-            const imagen = crearCeldaControl(crearCeldaImg(p.imagen));
-            const estado = crearSpan(p.activo === true ? "🟢" : "🔴");
-            const btneditar = crearSpan("✏️");
-            const btndarbaja = crearSpan("⛔");
+            const imagen = crearCeldaImg(p.imagen);
+            const estado = crearCeldaControl(crearSpan(p.activo === true ? "🟢" : "🔴"));
+            const btneditar = crearCeldaControl(crearSpan("✏️"));
+            const btndarbaja = crearCeldaControl(crearSpan("⛔"));
 
             tr.appendChild(codigo);
             tr.appendChild(nombre);
