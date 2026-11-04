@@ -144,10 +144,18 @@ thead th {
 td {
     padding: 12px 10px;
     border: none;
-    border-bottom: 1px solid var(--border_color);
-    vertical-align: middle;
     text-align: center;
     color: var(--text_main);
+}
+
+td:nth-child(2) {
+    padding: 10px 2px;
+    text-align: left;
+}
+
+td:nth-child(3) {
+    padding: 10px 2px;
+    text-align: left;
 }
 
 td span{

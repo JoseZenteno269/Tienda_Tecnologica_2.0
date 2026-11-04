@@ -42,6 +42,11 @@ async function Productos() {
             tr.appendChild(btndarbaja);
 
             tablaproductos.appendChild(tr);
+
+            btneditar.addEventListener("click", () => {
+                nombre.innerHTML = "";
+                nombre.appendChild(crearInput(p.nombre, "text"));
+            });
         });
 
     }

@@ -82,7 +82,6 @@ async function tablaProductos(texto = "", valor = 0) {
             const descripcion = crearCelda(prod.descripcion);
             const categoria = crearCelda(prod.tipo);
             const precio = crearCelda(prod.precio);
-            const stock = crearCelda(prod.stock);
             const imagen = crearCeldaImg(prod.imagen, "");
             const btnagregar = crearCeldaControl(crearSpan(" + "));
 
@@ -91,7 +90,6 @@ async function tablaProductos(texto = "", valor = 0) {
             tr.appendChild(descripcion);
             tr.appendChild(categoria);
             tr.appendChild(precio);
-            tr.appendChild(stock);
             tr.appendChild(imagen);
             tr.appendChild(btnagregar);
 
