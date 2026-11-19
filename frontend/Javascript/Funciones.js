@@ -42,6 +42,40 @@ export function crearInput(texto, modo) {
     return crearCeldaControl(input);
 }
 
+// Devuelve SOLO el input (sin envolverlo en un td), para usar dentro de una celda existente
+export function crearControlInput(valor, tipo) {
+    const input = document.createElement("input");
+    input.type = tipo;
+    input.value = valor;
+    if (tipo === "number") {
+        input.min = 0;
+    }
+    return input;
+}
+
+// Devuelve SOLO el textarea, para textos largos como la descripcion
+export function crearControlTextarea(valor) {
+    const textarea = document.createElement("textarea");
+    textarea.value = valor;
+    textarea.rows = 2;
+    return textarea;
+}
+
+// Devuelve un select cargado con las categorias y con la actual ya seleccionada
+export function crearControlSelect(categorias, textoActual) {
+    const select = document.createElement("select");
+
+    categorias.forEach(cat => {
+        const option = crearOption(cat.tipo, cat.idTipo);
+        if (cat.tipo === textoActual) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
+
+    return select;
+}
+
 export function crearOption(texto, valor) {
     const option = document.createElement("option");
     option.textContent = texto;
