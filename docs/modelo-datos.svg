@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d">
+  <title id="t">Modelo de datos de CarritoComprasDB</title>
+  <desc id="d">Cinco tablas: Productos pertenece a un Tipo; Detalle_Compra une Compras con Productos; cada Compra tiene un Estado.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#002c50"/><stop offset="1" stop-color="#0b1220"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity="0.035"/></pattern>
+  </defs>
+  <style>
+    .mono { font-family: Consolas, "Cascadia Code", Menlo, "Courier New", monospace; }
+    .sans { font-family: "Segoe UI", -apple-system, Helvetica, Arial, sans-serif; }
+    .rel { stroke-dasharray: 6 5; animation: dash 1.4s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -22; } }
+    @media (prefers-reduced-motion: reduce) { .rel { animation: none; } }
+  </style>
+  <rect width="1200" height="600" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="600" rx="18" fill="url(#grid)"/>
+  <rect x="0.5" y="0.5" width="1199" height="599" rx="18" fill="none" stroke="#38bdf8" stroke-opacity="0.25"/>
+  <text x="40" y="58" class="sans" font-size="26" font-weight="700" fill="#f8fafc">Modelo de datos</text>
+  <text x="252" y="58" class="mono" font-size="15" fill="#94a3b8">CarritoComprasDB · MySQL</text>
+  <path class="rel" d="M320 271.0H290V167.0H260" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="308" y="265.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">N</text>
+  <text x="272" y="161.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">1</text>
+  <path class="rel" d="M640 193.0H610V167.0H580" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="628" y="187.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">N</text>
+  <text x="592" y="161.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">1</text>
+  <path class="rel" d="M890 167.0H950" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="902" y="161.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">N</text>
+  <text x="938" y="161.0" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">1</text>
+  <path class="rel" d="M1060 266V370" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="1074" y="288" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">N</text>
+  <text x="1074" y="362" class="mono" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle">1</text>
+  <g>
+    <rect x="30" y="110" width="230" height="130" rx="10" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.7"/>
+    <path d="M30 120a10 10 0 0 1 10 -10h210a10 10 0 0 1 10 10v34h-230z" fill="#38bdf8" fill-opacity="0.18"/>
+    <text x="44" y="138" class="sans" font-size="16" font-weight="700" fill="#38bdf8">Tipo</text>
+    <rect x="31" y="154" width="228" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="44" y="171.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdTipo_T</text>
+    <text x="248" y="171.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="44" y="197.0" class="mono" font-size="12.5" fill="#f8fafc">Codigo_T</text>
+    <text x="248" y="197.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(50)</tspan></text>
+    <rect x="31" y="206" width="228" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="44" y="223.0" class="mono" font-size="12.5" fill="#f8fafc">Tipo_T</text>
+    <text x="248" y="223.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(50)</tspan></text>
+  </g>
+  <g>
+    <rect x="320" y="110" width="260" height="286" rx="10" fill="#0f1b2d" stroke="#6db33f" stroke-opacity="0.7"/>
+    <path d="M320 120a10 10 0 0 1 10 -10h240a10 10 0 0 1 10 10v34h-260z" fill="#6db33f" fill-opacity="0.18"/>
+    <text x="334" y="138" class="sans" font-size="16" font-weight="700" fill="#6db33f">Productos</text>
+    <rect x="321" y="154" width="258" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="334" y="171.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdProducto_P</text>
+    <text x="568" y="171.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK  <tspan fill="#64748b">CHAR(36) UUID</tspan></text>
+    <text x="334" y="197.0" class="mono" font-size="12.5" fill="#f8fafc">Codigo_P</text>
+    <text x="568" y="197.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end">UQ  <tspan fill="#64748b">VARCHAR(20)</tspan></text>
+    <rect x="321" y="206" width="258" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="334" y="223.0" class="mono" font-size="12.5" fill="#f8fafc">Nombre_P</text>
+    <text x="568" y="223.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(100)</tspan></text>
+    <text x="334" y="249.0" class="mono" font-size="12.5" fill="#f8fafc">Descripcion_P</text>
+    <text x="568" y="249.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(300)</tspan></text>
+    <rect x="321" y="258" width="258" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="334" y="275.0" class="mono" font-size="12.5" fill="#f8fafc">IdTipo_P</text>
+    <text x="568" y="275.0" class="mono" font-size="10.5" fill="#a78bfa" text-anchor="end">FK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="334" y="301.0" class="mono" font-size="12.5" fill="#f8fafc">Precio_P</text>
+    <text x="568" y="301.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">DECIMAL(10,2)</tspan></text>
+    <rect x="321" y="310" width="258" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="334" y="327.0" class="mono" font-size="12.5" fill="#f8fafc">Stock_P</text>
+    <text x="568" y="327.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">INT</tspan></text>
+    <text x="334" y="353.0" class="mono" font-size="12.5" fill="#f8fafc">Imagen_P</text>
+    <text x="568" y="353.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(500)</tspan></text>
+    <rect x="321" y="362" width="258" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="334" y="379.0" class="mono" font-size="12.5" fill="#f8fafc">Activo_P</text>
+    <text x="568" y="379.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">BIT</tspan></text>
+  </g>
+  <g>
+    <rect x="640" y="110" width="250" height="156" rx="10" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.7"/>
+    <path d="M640 120a10 10 0 0 1 10 -10h230a10 10 0 0 1 10 10v34h-250z" fill="#f29111" fill-opacity="0.18"/>
+    <text x="654" y="138" class="sans" font-size="16" font-weight="700" fill="#f29111">Detalle_Compra</text>
+    <rect x="641" y="154" width="248" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="654" y="171.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdCompra_DC</text>
+    <text x="878" y="171.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK FK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="654" y="197.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdProducto_DC</text>
+    <text x="878" y="197.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK FK  <tspan fill="#64748b">CHAR(36)</tspan></text>
+    <rect x="641" y="206" width="248" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="654" y="223.0" class="mono" font-size="12.5" fill="#f8fafc">Cantidad_DC</text>
+    <text x="878" y="223.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">INT</tspan></text>
+    <text x="654" y="249.0" class="mono" font-size="12.5" fill="#f8fafc">Precio_DC</text>
+    <text x="878" y="249.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">DECIMAL(10,2)</tspan></text>
+  </g>
+  <g>
+    <rect x="950" y="110" width="220" height="156" rx="10" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.7"/>
+    <path d="M950 120a10 10 0 0 1 10 -10h200a10 10 0 0 1 10 10v34h-220z" fill="#f29111" fill-opacity="0.18"/>
+    <text x="964" y="138" class="sans" font-size="16" font-weight="700" fill="#f29111">Compras</text>
+    <rect x="951" y="154" width="218" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="964" y="171.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdCompra_C</text>
+    <text x="1158" y="171.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="964" y="197.0" class="mono" font-size="12.5" fill="#f8fafc">Fecha_C</text>
+    <text x="1158" y="197.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">DATETIME</tspan></text>
+    <rect x="951" y="206" width="218" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="964" y="223.0" class="mono" font-size="12.5" fill="#f8fafc">IdEstado_C</text>
+    <text x="1158" y="223.0" class="mono" font-size="10.5" fill="#a78bfa" text-anchor="end">FK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="964" y="249.0" class="mono" font-size="12.5" fill="#f8fafc">Total_C</text>
+    <text x="1158" y="249.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">DECIMAL(10,2)</tspan></text>
+  </g>
+  <g>
+    <rect x="950" y="370" width="220" height="130" rx="10" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.7"/>
+    <path d="M950 380a10 10 0 0 1 10 -10h200a10 10 0 0 1 10 10v34h-220z" fill="#38bdf8" fill-opacity="0.18"/>
+    <text x="964" y="398" class="sans" font-size="16" font-weight="700" fill="#38bdf8">Estados</text>
+    <rect x="951" y="414" width="218" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="964" y="431.0" class="mono" font-size="12.5" fill="#f8fafc" font-weight="700">IdEstado_E</text>
+    <text x="1158" y="431.0" class="mono" font-size="10.5" fill="#fbbf24" text-anchor="end">PK  <tspan fill="#64748b">INT</tspan></text>
+    <text x="964" y="457.0" class="mono" font-size="12.5" fill="#f8fafc">Codigo_E</text>
+    <text x="1158" y="457.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(50)</tspan></text>
+    <rect x="951" y="466" width="218" height="26" fill="#ffffff" fill-opacity="0.025"/>
+    <text x="964" y="483.0" class="mono" font-size="12.5" fill="#f8fafc">Estado_E</text>
+    <text x="1158" y="483.0" class="mono" font-size="10.5" fill="#94a3b8" text-anchor="end"><tspan fill="#64748b">VARCHAR(50)</tspan></text>
+  </g>
+  <g class="sans" font-size="13">
+    <text x="40" y="520" fill="#fbbf24" class="mono" font-weight="700">PK</text><text x="66" y="520" fill="#cbd5e1">clave primaria</text>
+    <text x="180" y="520" fill="#a78bfa" class="mono" font-weight="700">FK</text><text x="206" y="520" fill="#cbd5e1">clave foránea</text>
+    <text x="320" y="520" fill="#94a3b8" class="mono" font-weight="700">UQ</text><text x="346" y="520" fill="#cbd5e1">único</text>
+    <text x="420" y="520" fill="#cbd5e1" class="mono" font-weight="700">1 — N</text><text x="470" y="520" fill="#cbd5e1">cardinalidad</text>
+    <text x="40" y="556" fill="#94a3b8">Baja lógica: <tspan class="mono" fill="#f8fafc">Activo_P</tspan> 1/0 · Precio histórico: <tspan class="mono" fill="#f8fafc">Precio_DC</tspan> guarda el precio del momento de la compra</text>
+  </g>
+  <g class="sans" font-size="12.5">
+    <rect x="640" y="300" width="250" height="118" rx="10" fill="#1b1530" stroke="#a78bfa" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+    <text x="654" y="324" font-weight="700" fill="#a78bfa">Triggers de stock</text>
+    <text x="654" y="348" class="mono" font-size="11.5" fill="#f8fafc">tr_ActualizarStock_Descontar</text>
+    <text x="654" y="364" fill="#94a3b8">AFTER INSERT Detalle_Compra → resta</text>
+    <text x="654" y="390" class="mono" font-size="11.5" fill="#f8fafc">tr_ActualizarStock_Devolver</text>
+    <text x="654" y="406" fill="#94a3b8">AFTER UPDATE Compras (→ 3) → suma</text>
+  </g>
+</svg>

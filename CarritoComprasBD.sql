@@ -206,8 +206,6 @@ INSERT INTO Estados (Codigo_E, Estado_E) VALUES
 	('CANC', 'Cancelado');
 
 INSERT INTO Tipo (Codigo_T, Tipo_T) VALUES
-	('PER', 'Perifericos'),
-	('MON', 'Monitores'),
-	('COM', 'Componentes'),
-	('NOT', 'Notebooks'),
-	('ACC', 'Accesorios');
+	('TECLADO', 'Teclado'),
+	('MOUSE', 'Mouse'),
+	('MONITOR', 'Monitor');

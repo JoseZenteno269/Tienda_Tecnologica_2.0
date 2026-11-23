@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d">
+  <title id="t">Flujo de compra y cancelación</title>
+  <desc id="d">Comprar: el carrito se envía a la API, que valida stock, crea la compra y su detalle con procedimientos almacenados; un trigger descuenta el stock. Cancelar: la API llama a sp_CancelarCompra y un trigger devuelve el stock.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#002c50"/><stop offset="1" stop-color="#0b1220"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity="0.035"/></pattern>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#cbd5e1"/></marker>
+  </defs>
+  <style>
+    .mono { font-family: Consolas, "Cascadia Code", Menlo, "Courier New", monospace; }
+    .sans { font-family: "Segoe UI", -apple-system, Helvetica, Arial, sans-serif; }
+    .flow { stroke-dasharray: 6 5; animation: dash 1.1s linear infinite; }
+    .step { opacity: 0; animation: show .5s ease-out forwards; }
+    @keyframes dash { to { stroke-dashoffset: -22; } }
+    @keyframes show { to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .flow { animation: none; } .step { animation: none; opacity: 1; } }
+  </style>
+  <rect width="1200" height="600" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="600" rx="18" fill="url(#grid)"/>
+  <rect x="0.5" y="0.5" width="1199" height="599" rx="18" fill="none" stroke="#38bdf8" stroke-opacity="0.25"/>
+  <text x="40" y="52" class="sans" font-size="26" font-weight="700" fill="#f8fafc">Flujo de compra y cancelación</text>
+  <text x="40" y="98" class="sans" font-size="18" font-weight="700" fill="#f8fafc">1. Comprar</text>
+  <text x="157" y="98" class="mono" font-size="13" fill="#94a3b8">Productos.html → confirmar carrito</text>
+  <g class="step" style="animation-delay:0.00s">
+    <rect x="30" y="120" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.75"/>
+    <rect x="30" y="120" width="200" height="4" rx="2" fill="#38bdf8"/>
+    <circle cx="52" cy="148" r="11" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8"/>
+    <text x="52" y="152.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#38bdf8">1</text>
+    <text x="72" y="153" class="sans" font-size="12" font-weight="600" fill="#38bdf8" letter-spacing="0.5">FRONTEND</text>
+    <text x="46" y="182" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Producto.js</text>
+    <text x="46" y="202" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">POST /RealizarCompra</text>
+    <text x="46" y="236" class="sans" font-size="12" fill="#94a3b8">carrito en JSON</text>
+  </g>
+  <path class="flow" d="M233 186.0H262" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:0.15s">
+    <rect x="265" y="120" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#6db33f" stroke-opacity="0.75"/>
+    <rect x="265" y="120" width="200" height="4" rx="2" fill="#6db33f"/>
+    <circle cx="287" cy="148" r="11" fill="#6db33f" fill-opacity="0.2" stroke="#6db33f"/>
+    <text x="287" y="152.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#6db33f">2</text>
+    <text x="307" y="153" class="sans" font-size="12" font-weight="600" fill="#6db33f" letter-spacing="0.5">API</text>
+    <text x="281" y="182" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Valida stock</text>
+    <text x="281" y="202" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">de cada ítem</text>
+    <text x="281" y="236" class="sans" font-size="12" fill="#f87171">si falta → 400</text>
+  </g>
+  <path class="flow" d="M468 186.0H497" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:0.30s">
+    <rect x="500" y="120" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.75"/>
+    <rect x="500" y="120" width="200" height="4" rx="2" fill="#f29111"/>
+    <circle cx="522" cy="148" r="11" fill="#f29111" fill-opacity="0.2" stroke="#f29111"/>
+    <text x="522" y="152.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#f29111">3</text>
+    <text x="542" y="153" class="sans" font-size="12" font-weight="600" fill="#f29111" letter-spacing="0.5">MYSQL</text>
+    <text x="516" y="182" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">sp_RealizarCompra</text>
+    <text x="516" y="236" class="sans" font-size="12" fill="#94a3b8">crea la compra y devuelve IdCompra</text>
+  </g>
+  <path class="flow" d="M703 186.0H732" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:0.45s">
+    <rect x="735" y="120" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.75"/>
+    <rect x="735" y="120" width="200" height="4" rx="2" fill="#f29111"/>
+    <circle cx="757" cy="148" r="11" fill="#f29111" fill-opacity="0.2" stroke="#f29111"/>
+    <text x="757" y="152.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#f29111">4</text>
+    <text x="777" y="153" class="sans" font-size="12" font-weight="600" fill="#f29111" letter-spacing="0.5">MYSQL</text>
+    <text x="751" y="182" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">sp_AgregarDetalleCompra</text>
+    <text x="751" y="236" class="sans" font-size="12" fill="#94a3b8">por ítem: cantidad y precio</text>
+  </g>
+  <path class="flow" d="M938 186.0H967" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:0.60s">
+    <rect x="970" y="120" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#a78bfa" stroke-opacity="0.75"/>
+    <rect x="970" y="120" width="200" height="4" rx="2" fill="#a78bfa"/>
+    <circle cx="992" cy="148" r="11" fill="#a78bfa" fill-opacity="0.2" stroke="#a78bfa"/>
+    <text x="992" y="152.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#a78bfa">5</text>
+    <text x="1012" y="153" class="sans" font-size="12" font-weight="600" fill="#a78bfa" letter-spacing="0.5">TRIGGER</text>
+    <text x="986" y="182" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">tr_ActualizarStock_</text>
+    <text x="986" y="202" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Descontar</text>
+    <text x="986" y="236" class="sans" font-size="12" fill="#94a3b8">Stock_P − cantidad</text>
+  </g>
+  <text x="40" y="348" class="sans" font-size="18" font-weight="700" fill="#f8fafc">2. Cancelar</text>
+  <text x="168" y="348" class="mono" font-size="13" fill="#94a3b8">Compras.html → botón Cancelar</text>
+  <g class="step" style="animation-delay:0.75s">
+    <rect x="30" y="370" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.75"/>
+    <rect x="30" y="370" width="200" height="4" rx="2" fill="#38bdf8"/>
+    <circle cx="52" cy="398" r="11" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8"/>
+    <text x="52" y="402.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#38bdf8">1</text>
+    <text x="72" y="403" class="sans" font-size="12" font-weight="600" fill="#38bdf8" letter-spacing="0.5">FRONTEND</text>
+    <text x="46" y="432" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Compras.js</text>
+    <text x="46" y="452" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">POST /cancelar</text>
+    <text x="46" y="486" class="sans" font-size="12" fill="#94a3b8">{ idCompra }</text>
+  </g>
+  <path class="flow" d="M233 436.0H262" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:0.90s">
+    <rect x="265" y="370" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#6db33f" stroke-opacity="0.75"/>
+    <rect x="265" y="370" width="200" height="4" rx="2" fill="#6db33f"/>
+    <circle cx="287" cy="398" r="11" fill="#6db33f" fill-opacity="0.2" stroke="#6db33f"/>
+    <text x="287" y="402.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#6db33f">2</text>
+    <text x="307" y="403" class="sans" font-size="12" font-weight="600" fill="#6db33f" letter-spacing="0.5">API</text>
+    <text x="281" y="432" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">ComprasController</text>
+    <text x="281" y="452" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">→ NegocioCompras</text>
+    <text x="281" y="486" class="sans" font-size="12" fill="#f87171">error → 400</text>
+  </g>
+  <path class="flow" d="M468 436.0H497" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:1.05s">
+    <rect x="500" y="370" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.75"/>
+    <rect x="500" y="370" width="200" height="4" rx="2" fill="#f29111"/>
+    <circle cx="522" cy="398" r="11" fill="#f29111" fill-opacity="0.2" stroke="#f29111"/>
+    <text x="522" y="402.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#f29111">3</text>
+    <text x="542" y="403" class="sans" font-size="12" font-weight="600" fill="#f29111" letter-spacing="0.5">MYSQL</text>
+    <text x="516" y="432" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">sp_CancelarCompra</text>
+    <text x="516" y="486" class="sans" font-size="12" fill="#94a3b8">estado → 3 solo si no lo estaba</text>
+  </g>
+  <path class="flow" d="M703 436.0H732" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:1.20s">
+    <rect x="735" y="370" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#a78bfa" stroke-opacity="0.75"/>
+    <rect x="735" y="370" width="200" height="4" rx="2" fill="#a78bfa"/>
+    <circle cx="757" cy="398" r="11" fill="#a78bfa" fill-opacity="0.2" stroke="#a78bfa"/>
+    <text x="757" y="402.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#a78bfa">4</text>
+    <text x="777" y="403" class="sans" font-size="12" font-weight="600" fill="#a78bfa" letter-spacing="0.5">TRIGGER</text>
+    <text x="751" y="432" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">tr_ActualizarStock_</text>
+    <text x="751" y="452" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Devolver</text>
+    <text x="751" y="486" class="sans" font-size="12" fill="#94a3b8">Stock_P + cantidad de cada ítem</text>
+  </g>
+  <path class="flow" d="M938 436.0H967" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#ar)"/>
+  <g class="step" style="animation-delay:1.35s">
+    <rect x="970" y="370" width="200" height="132" rx="12" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.75"/>
+    <rect x="970" y="370" width="200" height="4" rx="2" fill="#38bdf8"/>
+    <circle cx="992" cy="398" r="11" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8"/>
+    <text x="992" y="402.5" text-anchor="middle" class="sans" font-size="12" font-weight="700" fill="#38bdf8">5</text>
+    <text x="1012" y="403" class="sans" font-size="12" font-weight="600" fill="#38bdf8" letter-spacing="0.5">FRONTEND</text>
+    <text x="986" y="432" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">Badge «Cancelado»</text>
+    <text x="986" y="452" class="mono" font-size="13.5" font-weight="700" fill="#f8fafc">botón deshabilitado</text>
+    <text x="986" y="486" class="sans" font-size="12" fill="#94a3b8">no se cancela dos veces</text>
+  </g>
+  <rect x="40" y="553" width="14" height="14" rx="3" fill="#38bdf8"/><text x="62" y="564" class="sans" font-size="13" fill="#cbd5e1">Frontend (JS)</text>
+  <rect x="184" y="553" width="14" height="14" rx="3" fill="#6db33f"/><text x="206" y="564" class="sans" font-size="13" fill="#cbd5e1">API Spring Boot</text>
+  <rect x="344" y="553" width="14" height="14" rx="3" fill="#f29111"/><text x="366" y="564" class="sans" font-size="13" fill="#cbd5e1">Procedimiento almacenado</text>
+  <rect x="576" y="553" width="14" height="14" rx="3" fill="#a78bfa"/><text x="598" y="564" class="sans" font-size="13" fill="#cbd5e1">Trigger en MySQL</text>
+  <text x="1160" y="564" text-anchor="end" class="sans" font-size="13" fill="#94a3b8">Al comprar y al cancelar, el stock lo ajustan los triggers, no Java.</text>
+</svg>

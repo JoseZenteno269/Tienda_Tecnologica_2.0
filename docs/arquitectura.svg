@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" width="1200" height="660" role="img" aria-labelledby="t d">
+  <title id="t">Arquitectura de Tienda Tecnológica 2.0</title>
+  <desc id="d">El frontend (HTML, CSS y JavaScript con ES Modules) consume por fetch una API REST en Spring Boot organizada en Controller, Negocio, DAO y Datos, que accede por JDBC a MySQL con procedimientos almacenados y triggers.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#002c50"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity="0.035"/>
+    </pattern>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#38bdf8"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6db33f"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#f29111"/></marker>
+  </defs>
+  <style>
+    .mono { font-family: Consolas, "Cascadia Code", Menlo, "Courier New", monospace; }
+    .sans { font-family: "Segoe UI", -apple-system, Helvetica, Arial, sans-serif; }
+    .flow { stroke-dasharray: 7 6; animation: dash 1.2s linear infinite; }
+    .back { stroke-dasharray: 7 6; animation: dash 1.2s linear infinite reverse; }
+    @keyframes dash { to { stroke-dashoffset: -26; } }
+    @media (prefers-reduced-motion: reduce) { .flow, .back { animation: none; } }
+  </style>
+
+  <rect width="1200" height="660" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="660" rx="18" fill="url(#grid)"/>
+  <rect x="0.5" y="0.5" width="1199" height="659" rx="18" fill="none" stroke="#38bdf8" stroke-opacity="0.25"/>
+
+  <text x="40" y="52" class="sans" font-size="26" font-weight="700" fill="#f8fafc">Arquitectura</text>
+  <text x="200" y="52" class="mono" font-size="15" fill="#94a3b8">Frontend ⇄ API REST ⇄ MySQL</text>
+
+  <!-- ================= FRONTEND ================= -->
+  <rect x="30" y="80" width="310" height="550" rx="14" fill="#0f1b2d" stroke="#38bdf8" stroke-opacity="0.6"/>
+  <text x="50" y="114" class="sans" font-size="20" font-weight="700" fill="#38bdf8">Frontend</text>
+  <text x="50" y="136" class="mono" font-size="13" fill="#94a3b8">HTML · CSS · JS (ES Modules)</text>
+
+  <g class="sans" font-size="14">
+    <rect x="50" y="154" width="270" height="44" rx="8" fill="#13263d"/>
+    <text x="64" y="173" fill="#f8fafc" font-weight="600">Productos.html</text>
+    <text x="64" y="190" fill="#94a3b8" font-size="12">Catálogo + carrito</text>
+
+    <rect x="50" y="206" width="270" height="44" rx="8" fill="#13263d"/>
+    <text x="64" y="225" fill="#f8fafc" font-weight="600">AgregarProductos.html</text>
+    <text x="64" y="242" fill="#94a3b8" font-size="12">Alta con imagen (multipart)</text>
+
+    <rect x="50" y="258" width="270" height="44" rx="8" fill="#13263d"/>
+    <text x="64" y="277" fill="#f8fafc" font-weight="600">BMLProductos.html</text>
+    <text x="64" y="294" fill="#94a3b8" font-size="12">Editar · baja lógica · reactivar</text>
+
+    <rect x="50" y="310" width="270" height="44" rx="8" fill="#13263d"/>
+    <text x="64" y="329" fill="#f8fafc" font-weight="600">Compras.html</text>
+    <text x="64" y="346" fill="#94a3b8" font-size="12">Historial · cancelar · ver detalle</text>
+
+    <rect x="50" y="362" width="270" height="44" rx="8" fill="#13263d"/>
+    <text x="64" y="381" fill="#f8fafc" font-weight="600">DetalleCompras.html</text>
+    <text x="64" y="398" fill="#94a3b8" font-size="12">Ítems de la compra (sessionStorage)</text>
+  </g>
+
+  <rect x="50" y="430" width="270" height="62" rx="8" fill="#0b2a44" stroke="#38bdf8" stroke-opacity="0.5" stroke-dasharray="4 4"/>
+  <text x="64" y="454" class="mono" font-size="14" font-weight="700" fill="#38bdf8">Funciones.js</text>
+  <text x="64" y="476" class="sans" font-size="12" fill="#cbd5e1">API_URL · helpers del DOM · fetch</text>
+
+  <rect x="50" y="550" width="270" height="56" rx="8" fill="#0b2a44" stroke="#6db33f" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+  <text x="64" y="573" class="mono" font-size="14" font-weight="700" fill="#6db33f">Imagenes/</text>
+  <text x="64" y="593" class="sans" font-size="12" fill="#cbd5e1">Fotos de los productos</text>
+
+  <!-- ================= API ================= -->
+  <rect x="440" y="80" width="360" height="550" rx="14" fill="#0f1b2d" stroke="#6db33f" stroke-opacity="0.7"/>
+  <text x="460" y="114" class="sans" font-size="20" font-weight="700" fill="#6db33f">API REST · Spring Boot</text>
+  <text x="460" y="136" class="mono" font-size="13" fill="#94a3b8">localhost:8080/api · Swagger UI</text>
+
+  <g class="sans">
+    <rect x="460" y="154" width="320" height="92" rx="10" fill="#14281a"/>
+    <text x="476" y="178" font-size="15" font-weight="700" fill="#f8fafc">Controller</text>
+    <text x="476" y="198" class="mono" font-size="12" fill="#cbd5e1">ProductosController</text>
+    <text x="476" y="215" class="mono" font-size="12" fill="#cbd5e1">ComprasController</text>
+    <text x="476" y="232" class="mono" font-size="12" fill="#cbd5e1">DetalleComprasController</text>
+    <text x="764" y="178" text-anchor="end" font-size="11" fill="#94a3b8">valida · HTTP · DTOs</text>
+
+    <rect x="460" y="276" width="320" height="76" rx="10" fill="#14281a"/>
+    <text x="476" y="300" font-size="15" font-weight="700" fill="#f8fafc">Negocio</text>
+    <text x="476" y="320" class="mono" font-size="12" fill="#cbd5e1">NegocioProductos · NegocioCompras</text>
+    <text x="476" y="337" class="mono" font-size="12" fill="#cbd5e1">NegocioDetalleCompras · NegocioTipo</text>
+    <text x="764" y="300" text-anchor="end" font-size="11" fill="#94a3b8">reglas</text>
+
+    <rect x="460" y="382" width="320" height="76" rx="10" fill="#14281a"/>
+    <text x="476" y="406" font-size="15" font-weight="700" fill="#f8fafc">DAO</text>
+    <text x="476" y="426" class="mono" font-size="12" fill="#cbd5e1">DaoProductos · DaoCompras</text>
+    <text x="476" y="443" class="mono" font-size="12" fill="#cbd5e1">DaoDetalleCompras · DaoTipo</text>
+    <text x="764" y="406" text-anchor="end" font-size="11" fill="#94a3b8">consultas SQL</text>
+
+    <rect x="460" y="488" width="320" height="76" rx="10" fill="#14281a" stroke="#6db33f" stroke-opacity="0.5"/>
+    <text x="476" y="512" font-size="15" font-weight="700" fill="#f8fafc">Datos</text>
+    <text x="476" y="532" class="mono" font-size="12" fill="#cbd5e1">DataSource · PreparedStatement</text>
+    <text x="476" y="549" class="mono" font-size="12" fill="#cbd5e1">CallableStatement (JDBC)</text>
+  </g>
+
+  <g fill="none" stroke="#6db33f" stroke-width="2" marker-end="url(#ag)">
+    <path class="flow" d="M620 246V272"/>
+    <path class="flow" d="M620 352V378"/>
+    <path class="flow" d="M620 458V484"/>
+  </g>
+
+  <!-- ================= MYSQL ================= -->
+  <rect x="900" y="80" width="270" height="550" rx="14" fill="#0f1b2d" stroke="#f29111" stroke-opacity="0.7"/>
+  <g transform="translate(920 100)">
+    <ellipse cx="18" cy="6" rx="18" ry="6" fill="#f29111"/>
+    <path d="M0 6v24c0 3.3 8 6 18 6s18-2.7 18-6V6" fill="#f29111" fill-opacity="0.75"/>
+    <ellipse cx="18" cy="6" rx="18" ry="6" fill="#ffb347"/>
+  </g>
+  <text x="966" y="114" class="sans" font-size="20" font-weight="700" fill="#f29111">MySQL</text>
+  <text x="966" y="136" class="mono" font-size="13" fill="#94a3b8">CarritoComprasDB</text>
+
+  <g class="sans">
+    <text x="920" y="178" font-size="14" font-weight="700" fill="#f8fafc">Tablas (5)</text>
+    <g class="mono" font-size="12" fill="#cbd5e1">
+      <text x="932" y="200">Tipo · Productos</text>
+      <text x="932" y="218">Estados · Compras</text>
+      <text x="932" y="236">Detalle_Compra</text>
+    </g>
+
+    <text x="920" y="280" font-size="14" font-weight="700" fill="#f8fafc">Procedimientos (7)</text>
+    <g class="mono" font-size="12" fill="#cbd5e1">
+      <text x="932" y="302">sp_RealizarCompra</text>
+      <text x="932" y="320">sp_AgregarDetalleCompra</text>
+      <text x="932" y="338">sp_CancelarCompra</text>
+      <text x="932" y="356">sp_AgregarProducto</text>
+      <text x="932" y="374">sp_ModificarProducto</text>
+      <text x="932" y="392">sp_BajaProducto</text>
+      <text x="932" y="410">sp_ActivarProducto</text>
+    </g>
+
+    <text x="920" y="454" font-size="14" font-weight="700" fill="#f8fafc">Triggers (2)</text>
+    <g class="mono" font-size="12" fill="#a78bfa">
+      <text x="932" y="476">tr_ActualizarStock_Descontar</text>
+      <text x="932" y="494">tr_ActualizarStock_Devolver</text>
+    </g>
+    <text x="920" y="540" font-size="12" fill="#94a3b8">El stock se ajusta solo en la base</text>
+    <text x="920" y="558" font-size="12" fill="#94a3b8">al comprar y al cancelar.</text>
+  </g>
+
+  <!-- ================= CONEXIONES ================= -->
+  <!-- Frontend -> API -->
+  <path class="flow" d="M340 190H436" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#ab)"/>
+  <text x="388" y="180" text-anchor="middle" class="mono" font-size="11" fill="#38bdf8">fetch</text>
+  <!-- API -> Frontend -->
+  <path class="flow" d="M440 222H344" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-opacity="0.7" marker-end="url(#ab)"/>
+  <text x="390" y="240" text-anchor="middle" class="mono" font-size="11" fill="#94a3b8">JSON</text>
+
+  <!-- Controller guarda imagen -->
+  <path class="flow" d="M460 236C400 300 400 520 324 578" fill="none" stroke="#6db33f" stroke-width="2" marker-end="url(#ag)"/>
+  <text x="378" y="420" text-anchor="middle" class="sans" font-size="11" fill="#6db33f" transform="rotate(-90 378 420)">guarda la imagen subida</text>
+
+  <!-- Datos -> MySQL -->
+  <path class="flow" d="M780 516H896" fill="none" stroke="#f29111" stroke-width="2.5" marker-end="url(#ao)"/>
+  <text x="840" y="506" text-anchor="middle" class="mono" font-size="11" fill="#f29111">CALL sp_*</text>
+  <path class="flow" d="M900 546H784" fill="none" stroke="#f29111" stroke-width="2.5" stroke-opacity="0.7" marker-end="url(#ao)"/>
+  <text x="840" y="566" text-anchor="middle" class="mono" font-size="11" fill="#94a3b8">ResultSet</text>
+</svg>
