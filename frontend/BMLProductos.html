@@ -4,25 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Tecnologica 2.0</title>
-    <link href="Css/BMLProductos.css" rel="stylesheet">
+    <title>Gestionar Productos — Tienda Tecnológica 2.0</title>
+    <link rel="stylesheet" href="Css/Base.css">
+    <link rel="stylesheet" href="Css/BMLProductos.css">
 </head>
 
 <body>
     <header>
-
+        <a class="marca" href="Productos.html">⚡ <span>Tienda Tecnológica</span></a>
+        <nav>
+            <a href="Productos.html">🛍️ Catálogo</a>
+            <a href="AgregarProductos.html">➕ Agregar</a>
+            <a href="BMLProductos.html" class="activo">🛠️ Gestionar</a>
+            <a href="Compras.html">🛒 Mis Compras</a>
+        </nav>
     </header>
 
     <main>
         <section>
-            <div>
+            <div class="contenedor-titulo">
+                <h2>Gestión de Productos</h2>
+            </div>
+            <div class="tabla-contenedor">
                 <table>
                     <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Nombre</th>
-                            <th>Descripcion</th>
-                            <th>Categoria</th>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
                             <th>Precio</th>
                             <th>Stock</th>
                             <th>Imagen</th>
@@ -32,11 +42,11 @@
                         </tr>
                     </thead>
                     <tbody id="tabla-productos">
-                        
+
                     </tbody>
                 </table>
-                <label id="lbl-mensaje"></label>
             </div>
+            <label id="lbl-mensaje"></label>
         </section>
     </main>
 

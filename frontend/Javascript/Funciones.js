@@ -1,3 +1,36 @@
+export const API_URL = "http://localhost:8080/api";
+
+// Lee el mensaje de la respuesta, venga como JSON { mensaje: "..." } o como texto plano
+export async function leerMensaje(respuesta) {
+    const texto = await respuesta.text();
+
+    try {
+        const datos = JSON.parse(texto);
+        return datos.mensaje ?? texto;
+    }
+    catch {
+        return texto;
+    }
+}
+
+// Trae las categorias desde la API para no repetir el fetch en varias paginas
+export async function obtenerCategorias() {
+    const respuesta = await fetch(`${API_URL}/Productos/Categorias`);
+    if (!respuesta.ok) {
+        throw new Error("No se encontraron categorias");
+    }
+    return await respuesta.json();
+}
+
+// Muestra un mensaje con estilo de exito o error (limpia si texto esta vacio)
+export function mostrarMensaje(elemento, texto, esExito = false) {
+    elemento.textContent = texto || "";
+    elemento.classList.remove("mensaje-exito", "mensaje-error");
+    if (texto) {
+        elemento.classList.add(esExito ? "mensaje-exito" : "mensaje-error");
+    }
+}
+
 export function crearCelda(texto) {
     const td = document.createElement("td");
     td.textContent = texto;
@@ -38,7 +71,6 @@ export function crearInput(texto, modo) {
     input.type = modo;
     input.value = texto;
     input.min = 1;
-    // input.max = max; 
     return crearCeldaControl(input);
 }
 

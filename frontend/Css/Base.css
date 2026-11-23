@@ -1,0 +1,192 @@
+:root {
+    --bg_primary: #071422;
+    --bg_secondary: #0f2438;
+    --bg_card: #ffffff;
+    --bg_card_alt: #f1f5f9;
+    --text_main: #0f172a;
+    --text_muted: #64748b;
+    --border_color: #e2e8f0;
+    --primary: #2563eb;
+    --primary_hover: #1d4ed8;
+    --primary_light: #dbeafe;
+    --accent: #38bdf8;
+    --success: #10b981;
+    --success_hover: #059669;
+    --success_bg: #ecfdf5;
+    --danger: #ef4444;
+    --danger_hover: #dc2626;
+    --danger_light: #fee2e2;
+    --header_bg: #1e293b;
+    --header_glass: rgba(15, 23, 42, 0.88);
+    --row_hover: #f8fafc;
+    --shadow_sm: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow: 0 8px 24px -6px rgba(2, 6, 23, 0.25), 0 2px 6px -2px rgba(2, 6, 23, 0.12);
+    --shadow_lg: 0 16px 32px -8px rgba(2, 6, 23, 0.35);
+    --radius: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: var(--bg_primary);
+    background-image:
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.14), transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(37, 99, 235, 0.18), transparent 45%),
+        linear-gradient(160deg, var(--bg_primary) 0%, var(--bg_secondary) 100%);
+    background-attachment: fixed;
+    color: var(--text_main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   HEADER Y NAVEGACION UNIFICADA
+   ========================================= */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: var(--header_glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;
+    padding: 14px 32px;
+    box-shadow: 0 4px 20px rgba(2, 6, 23, 0.35);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+header .marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+header .marca span {
+    background: linear-gradient(90deg, #ffffff 20%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+header nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: #e2e8f0;
+    background-color: rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+header nav a:hover {
+    background-color: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+header nav a.activo {
+    background: linear-gradient(135deg, var(--primary) 0%, #0ea5e9 100%);
+    border-color: rgba(56, 189, 248, 0.65);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+/* =========================================
+   TARJETAS (SECTIONS) CON ACENTO SUPERIOR
+   ========================================= */
+section {
+    background-color: var(--bg_card);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* =========================================
+   MENSAJES DE ESTADO (EXITO / ERROR)
+   ========================================= */
+#lbl-mensaje {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-top: 6px;
+    transition: all 0.2s ease;
+}
+
+#lbl-mensaje:empty {
+    display: none;
+}
+
+#lbl-mensaje.mensaje-error {
+    background-color: var(--danger_light);
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+#lbl-mensaje.mensaje-exito {
+    background-color: var(--success_bg);
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+    background-color: rgba(15, 23, 42, 0.92);
+    border-top: 1px solid rgba(56, 189, 248, 0.18);
+    text-align: center;
+    padding: 18px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+@media (max-width: 640px) {
+    header {
+        padding: 12px 16px;
+        justify-content: center;
+    }
+
+    header nav {
+        justify-content: center;
+    }
+
+    header nav a {
+        font-size: 0.82rem;
+        padding: 7px 12px;
+    }
+}

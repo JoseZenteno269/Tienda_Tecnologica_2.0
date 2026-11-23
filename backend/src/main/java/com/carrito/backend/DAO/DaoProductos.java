@@ -101,27 +101,31 @@ public class DaoProductos {
                 false) != 0;
     }
 
-    // private String texto(String palabra){
-    // String letras = "";
-    // String numeros = "";
-    // for (char c : palabra.trim().toCharArray()) {
-    // if(Character.isLetter(c)){
-    // letras += String.valueOf(c);
-    // }
-    // else if(Character.isDigit(c)){
-    // numeros += String.valueOf(c);
-    // }
-    // }
-
-    // String codigo = "";
-    // codigo += letras + (Integer.parseInt(numeros) + 1);
-
-    // return codigo;
-    // }
-
     public String obtenerUltimoCodigo(Productos productos) {
         Object[] parametros = { productos.getCodigo() };
         return datos.EjecutarScalarString("SELECT Codigo_P FROM Productos ORDER BY Codigo_P DESC LIMIT 1", parametros);
+    }
+
+    public boolean estaActivo(Productos productos) {
+        Object[] parametros = { productos.getCodigo() };
+        return datos.Existe(parametros, "SELECT EXISTS(SELECT 1 FROM Productos WHERE Codigo_P = ? AND Activo_P = 1)");
+    }
+
+    public Boolean bajaProducto(Productos productos) {
+        Object[] parametros = { productos.getCodigo() };
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_BajaProducto(?)", parametros, false) != 0;
+    }
+
+    public Boolean activarProducto(Productos productos) {
+        Object[] parametros = { productos.getCodigo() };
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_ActivarProducto(?)", parametros, false) != 0;
+    }
+
+    public Boolean modificarProducto(Productos productos) {
+        Object[] parametros = { productos.getCodigo(), productos.getNombre(), productos.getDescripcion(),
+                productos.getIdtipo(), productos.getPrecio(), productos.getStock() };
+        return datos.EjecutarProcedimientoAlmacenado("CALL sp_ModificarProducto(?, ?, ?, ?, ?, ?)", parametros,
+                false) != 0;
     }
 
 }

@@ -1,25 +1,30 @@
-const host = "http://localhost:8080/api/Productos";
+import {
+    API_URL,
+    obtenerCategorias,
+    leerMensaje,
+    mostrarMensaje,
+    crearCelda,
+    crearCeldaImg,
+    crearCeldaControl,
+    crearSpan,
+    crearControlInput,
+    crearControlTextarea,
+    crearControlSelect
+} from "./Funciones.js";
 
-import { crearCelda, crearCeldaImg, crearCeldaControl, crearSpan, crearControlInput, crearControlTextarea, crearControlSelect } from "./Funciones.js";
+const host = `${API_URL}/Productos`;
 
 const mensaje = document.getElementById("lbl-mensaje");
-mensaje.textContent = "";
+mostrarMensaje(mensaje, "");
 
 let categorias = [];
 
 async function Categorias() {
     try {
-        const respuesta_cat = await fetch(`${host}/${"Categorias"}`);
-
-        if (!respuesta_cat.ok) {
-            mensaje.textContent = "No hay Categorias";
-            return;
-        }
-
-        categorias = await respuesta_cat.json();
+        categorias = await obtenerCategorias();
     }
     catch (error) {
-        mensaje.textContent = "No se pudo conectar al servidor";
+        mostrarMensaje(mensaje, "No se pudo conectar al servidor");
     }
 }
 
@@ -97,6 +102,7 @@ async function Productos() {
 
             // Controles de edicion de esta fila
             let editando = false;
+            let guardando = false;
             let txtnombre, txtdescripcion, ddlcategoria, txtprecio, txtstock;
 
             function mostrarTextos() {
@@ -136,24 +142,46 @@ async function Productos() {
                 txtnombre.focus();
             }
 
-            function guardarCambios() {
+            async function guardarCambios() {
+                // Evita mandar la peticion dos veces si se hace doble click
+                if (guardando) {
+                    return;
+                }
+
                 const nuevoNombre = txtnombre.value.trim();
                 const nuevaDescripcion = txtdescripcion.value.trim();
-                const nuevoPrecio = parseFloat(txtprecio.value);
-                const nuevoStock = parseInt(txtstock.value);
+                const nuevoIdTipo = parseInt(ddlcategoria.value);
+                // Number() es mas estricto que parseFloat/parseInt ("12abc" o "1.5" en stock no pasan)
+                const nuevoPrecio = Number(txtprecio.value);
+                const nuevoStock = Number(txtstock.value);
 
-                if (nuevoNombre === "" || nuevaDescripcion === "") {
-                    mensaje.textContent = "El nombre y la descripcion no pueden estar vacios";
+                if (nuevoNombre === "") {
+                    mensaje.textContent = "El nombre no puede estar vacio";
+                    txtnombre.focus();
                     return;
                 }
 
-                if (isNaN(nuevoPrecio) || nuevoPrecio <= 0) {
-                    mensaje.textContent = "Ingrese un precio valido";
+                if (nuevaDescripcion === "") {
+                    mensaje.textContent = "La descripcion no puede estar vacia";
+                    txtdescripcion.focus();
                     return;
                 }
 
-                if (isNaN(nuevoStock) || nuevoStock < 0) {
-                    mensaje.textContent = "Ingrese un stock valido";
+                if (isNaN(nuevoIdTipo) || nuevoIdTipo <= 0) {
+                    mensaje.textContent = "Seleccione una categoria valida";
+                    ddlcategoria.focus();
+                    return;
+                }
+
+                if (txtprecio.value.trim() === "" || isNaN(nuevoPrecio) || nuevoPrecio <= 0) {
+                    mensaje.textContent = "Ingrese un precio valido (mayor a 0)";
+                    txtprecio.focus();
+                    return;
+                }
+
+                if (txtstock.value.trim() === "" || !Number.isInteger(nuevoStock) || nuevoStock < 0) {
+                    mensaje.textContent = "Ingrese un stock valido (numero entero, 0 o mas)";
+                    txtstock.focus();
                     return;
                 }
 
@@ -161,23 +189,65 @@ async function Productos() {
                     codigo: p.codigo,
                     nombre: nuevoNombre,
                     descripcion: nuevaDescripcion,
-                    idTipo: parseInt(ddlcategoria.value),
-                    precio: nuevoPrecio,
+                    idTipo: nuevoIdTipo,
+                    precio: Math.round(nuevoPrecio * 100) / 100,
                     stock: nuevoStock
                 };
 
-                // TODO: cuando exista el endpoint en el backend, enviar productoEditado con fetch (PUT)
-                console.log("Producto a modificar:", productoEditado);
+                const textoCategoria = ddlcategoria.options[ddlcategoria.selectedIndex].textContent;
 
-                // Actualizo los datos locales para que la fila muestre los nuevos valores
-                p.nombre = productoEditado.nombre;
-                p.descripcion = productoEditado.descripcion;
-                p.tipo = ddlcategoria.options[ddlcategoria.selectedIndex].textContent;
-                p.precio = productoEditado.precio;
-                p.stock = productoEditado.stock;
+                // Si no se cambio nada, no hace falta llamar al backend
+                const sinCambios =
+                    productoEditado.nombre === p.nombre &&
+                    productoEditado.descripcion === p.descripcion &&
+                    textoCategoria === p.tipo &&
+                    productoEditado.precio === Number(p.precio) &&
+                    productoEditado.stock === Number(p.stock);
 
-                mensaje.textContent = "";
-                mostrarTextos();
+                if (sinCambios) {
+                    mensaje.textContent = "No se realizaron cambios";
+                    mostrarTextos();
+                    return;
+                }
+
+                guardando = true;
+                spanconfirmar.style.opacity = "0.4";
+                spancancelar.style.opacity = "0.4";
+
+                try {
+                    const respuesta = await fetch(`${host}/modificar`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(productoEditado)
+                    });
+
+                    const texto = await leerMensaje(respuesta);
+
+                    if (!respuesta.ok) {
+                        // 400: datos invalidos | 404: no existe | 500: error en la BD
+                        // Los campos quedan abiertos para que se pueda corregir
+                        mensaje.textContent = texto || "No se pudo modificar el producto";
+                        return;
+                    }
+
+                    // Solo si el backend confirmo, actualizo los datos locales de la fila
+                    p.nombre = productoEditado.nombre;
+                    p.descripcion = productoEditado.descripcion;
+                    p.tipo = textoCategoria;
+                    p.precio = productoEditado.precio;
+                    p.stock = productoEditado.stock;
+
+                    mensaje.textContent = texto || "Producto modificado correctamente";
+                    mostrarTextos();
+                }
+                catch (error) {
+                    mensaje.textContent = "No se pudo conectar al servidor";
+                }
+                finally {
+                    guardando = false;
+                    spanconfirmar.style.opacity = "";
+                    spancancelar.style.opacity = "";
+                }
             }
 
             // Lapiz: entra en modo edicion
@@ -185,6 +255,7 @@ async function Productos() {
                 if (confirmandoBaja) {
                     return; // no se puede editar mientras se confirma una baja/reactivacion
                 }
+                mensaje.textContent = "";
                 mostrarControles();
             });
 
@@ -195,6 +266,9 @@ async function Productos() {
 
             // Cancelar: vuelve a los valores originales
             spancancelar.addEventListener("click", () => {
+                if (guardando) {
+                    return; // la peticion ya salio, no se puede cancelar
+                }
                 mensaje.textContent = "";
                 mostrarTextos();
             });
@@ -232,30 +306,66 @@ async function Productos() {
             spanbaja.addEventListener("click", pedirConfirmacion);
             spanreactivar.addEventListener("click", pedirConfirmacion);
 
+            let procesando = false;
+
             spanconfirmarbaja.addEventListener("click", async () => {
-                if (p.activo) {
-                    // TODO: logica para DAR DE BAJA el producto
-                    // Ejemplo:
-                    // const respuesta = await fetch(`${host}/Baja/${p.codigo}`, { method: "PUT" });
-                    // if (!respuesta.ok) { mensaje.textContent = "No se pudo dar de baja"; mostrarBotonBaja(); return; }
-
-                    p.activo = false;
-                    mensaje.textContent = "Producto dado de baja";
-                }
-                else {
-                    // TODO: logica para REACTIVAR el producto
-                    // Ejemplo:
-                    // const respuesta = await fetch(`${host}/Reactivar/${p.codigo}`, { method: "PUT" });
-                    // if (!respuesta.ok) { mensaje.textContent = "No se pudo reactivar"; mostrarBotonBaja(); return; }
-
-                    p.activo = true;
-                    mensaje.textContent = "Producto reactivado";
+                // Evita mandar la peticion dos veces si se hace doble click
+                if (procesando) {
+                    return;
                 }
 
-                mostrarBotonBaja();
+                // Segun el estado actual se da de baja (DELETE) o se reactiva (PUT)
+                const accion = p.activo
+                    ? {
+                        url: `${host}/eliminar?codigo=${encodeURIComponent(p.codigo)}`,
+                        metodo: "DELETE",
+                        nuevoEstado: false,
+                        mensajeOk: "Producto dado de baja correctamente",
+                        mensajeError: "No se pudo dar de baja el producto"
+                    }
+                    : {
+                        url: `${host}/activar?codigo=${encodeURIComponent(p.codigo)}`,
+                        metodo: "PUT",
+                        nuevoEstado: true,
+                        mensajeOk: "Producto activado correctamente",
+                        mensajeError: "No se pudo activar el producto"
+                    };
+
+                procesando = true;
+                spanconfirmarbaja.style.opacity = "0.4";
+                spancancelarbaja.style.opacity = "0.4";
+
+                try {
+                    const respuesta = await fetch(accion.url, { method: accion.metodo });
+                    const texto = await leerMensaje(respuesta);
+
+                    if (!respuesta.ok) {
+                        // 404: no existe | 409: la BD ya tenia ese estado | 400/500: otros errores
+                        if (respuesta.status === 409) {
+                            p.activo = accion.nuevoEstado; // sincronizo la fila con la BD
+                        }
+                        mensaje.textContent = texto || accion.mensajeError;
+                        return;
+                    }
+
+                    p.activo = accion.nuevoEstado;
+                    mensaje.textContent = texto || accion.mensajeOk;
+                }
+                catch (error) {
+                    mensaje.textContent = "No se pudo conectar al servidor";
+                }
+                finally {
+                    procesando = false;
+                    spanconfirmarbaja.style.opacity = "";
+                    spancancelarbaja.style.opacity = "";
+                    mostrarBotonBaja();
+                }
             });
 
             spancancelarbaja.addEventListener("click", () => {
+                if (procesando) {
+                    return; // la peticion ya salio, no se puede cancelar
+                }
                 mensaje.textContent = "";
                 mostrarBotonBaja();
             });

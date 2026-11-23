@@ -20,7 +20,7 @@ public class DaoDetalleCompras {
     }
 
     public ArrayList<DetalleComprasResponse> obtenerTablaDetalleCompras(int idcompra) {
-        String consulta = "SELECT Imagen_P, Codigo_P, Nombre_P, Precio_P, Cantidad_DC, (Cantidad_DC * Precio_DC) AS SubTotal FROM Productos p inner join Detalle_Compra dc ON p.IdProducto_P = dc.IdProducto_DC WHERE IdCompra_DC = ?";
+        String consulta = "SELECT Imagen_P, Codigo_P, Nombre_P, Precio_DC, Cantidad_DC, (Cantidad_DC * Precio_DC) AS SubTotal FROM Productos p inner join Detalle_Compra dc ON p.IdProducto_P = dc.IdProducto_DC WHERE IdCompra_DC = ?";
 
         ArrayList<DetalleComprasResponse> aDetalleCompras = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class DaoDetalleCompras {
                     detalleCompras.setImagen(resultSet.getString("Imagen_P"));
                     detalleCompras.setCodigo(resultSet.getString("Codigo_P"));
                     detalleCompras.setNombre(resultSet.getString("Nombre_P"));
-                    detalleCompras.setPrecio(resultSet.getDouble("Precio_P"));
+                    detalleCompras.setPrecio(resultSet.getDouble("Precio_DC"));
                     detalleCompras.setCantidad(resultSet.getInt("Cantidad_DC"));
                     detalleCompras.setSubTotal(resultSet.getDouble("SubTotal"));
                     aDetalleCompras.add(detalleCompras);

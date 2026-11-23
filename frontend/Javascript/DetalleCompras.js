@@ -1,24 +1,15 @@
-const host = "http://localhost:8080/api/DetalleCompras";
+import { API_URL, mostrarMensaje, crearCelda, crearCeldaImg } from "./Funciones.js";
 
-import { crearCelda, crearCeldaImg, crearButton, crearInput } from "./Funciones.js";
+const host = `${API_URL}/DetalleCompras`;
 
 const mensaje = document.getElementById("lbl-mensaje");
-mensaje.textContent = "";
-
-const total = document.getElementById("total");
-
-function calcularTotal(subtotal) {
-    let calcular = 0;
-    calcular += parseFloat(subtotal);
-    total.textContent = "$" + calcular;
-}
+mostrarMensaje(mensaje, "");
 
 async function tablaDetalleCompras() {
-
     try {
         const idcompra = sessionStorage.getItem("IdCompra");
         if (!idcompra) {
-            mensaje.textContent = "No se ha seleccionado ninguna compra";
+            mostrarMensaje(mensaje, "No se ha seleccionado ninguna compra");
             return;
         }
 
@@ -27,39 +18,30 @@ async function tablaDetalleCompras() {
         const tabla_detalle_compras = document.getElementById("tabla-detalle-compras");
         tabla_detalle_compras.innerHTML = "";
 
-        const respuesta_ver = await fetch(`${host}/${"VerDetalle"}/${parseInt(idcompra)}`);
-
-        const detalle = await respuesta_ver.json();
+        const respuesta_ver = await fetch(`${host}/VerDetalle/${parseInt(idcompra)}`);
 
         if (!respuesta_ver.ok) {
-            mensaje.textContent = "No hay compras para detallar";
+            mostrarMensaje(mensaje, "No hay compras para detallar");
             return;
         }
+
+        const detalle = await respuesta_ver.json();
 
         detalle.forEach(det => {
             const tr = document.createElement("tr");
 
             calcular += det.subTotal;
 
-            const imagen = crearCeldaImg(det.imagen);
-            const codigo = crearCelda(det.codigo);
-            const nombre = crearCelda(det.nombre);
-            const precio = crearCelda("$" + det.precio);
-            const cantidad = crearCelda(det.cantidad);
-            const subtotal = crearCelda("$" + det.subTotal);
-
-            tr.appendChild(imagen);
-            tr.appendChild(codigo);
-            tr.appendChild(nombre);
-            tr.appendChild(precio);
-            tr.appendChild(cantidad);
-            tr.appendChild(subtotal);
+            tr.appendChild(crearCeldaImg(det.imagen, det.nombre));
+            tr.appendChild(crearCelda(det.codigo));
+            tr.appendChild(crearCelda(det.nombre));
+            tr.appendChild(crearCelda("$" + det.precio));
+            tr.appendChild(crearCelda(det.cantidad));
+            tr.appendChild(crearCelda("$" + det.subTotal));
 
             tabla_detalle_compras.appendChild(tr);
-
         });
 
-        total.textContent = "$" + calcular;
         const totalArea = document.getElementById("total-area");
         const lblTotal = document.getElementById("total");
         if (detalle.length > 0) {
@@ -68,10 +50,10 @@ async function tablaDetalleCompras() {
         }
     }
     catch (error) {
-        mensaje.textContent = "No se pudo conectar a las Base de Datos";
+        mostrarMensaje(mensaje, "No se pudo conectar a la Base de Datos");
     }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
     await tablaDetalleCompras();
-}); 
+});

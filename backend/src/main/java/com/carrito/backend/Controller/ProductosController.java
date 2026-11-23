@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,115 @@ public class ProductosController {
     }
 
     private final Path carpetaDestino = Paths.get("frontend", "Imagenes");
+
+    @PutMapping("modificar")
+    public ResponseEntity<?> modificarProducto(@RequestBody(required = false) ProductosRequest productosRequest) {
+
+        if (productosRequest == null) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "No se recibieron los datos del producto"));
+        }
+
+        String codigo = productosRequest.getCodigo();
+        String nombre = productosRequest.getNombre();
+        String descripcion = productosRequest.getDescripcion();
+        int idtipo = productosRequest.getIdTipo();
+        double precio = productosRequest.getPrecio();
+        int stock = productosRequest.getStock();
+
+        if (codigo == null || codigo.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Debe indicar el codigo del producto"));
+        }
+
+        if (nombre == null || nombre.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "El nombre no puede estar vacio"));
+        }
+
+        if (descripcion == null || descripcion.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "La descripcion no puede estar vacia"));
+        }
+
+        if (precio <= 0) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "El precio debe ser mayor a 0"));
+        }
+
+        if (stock < 0) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "El stock no puede ser negativo"));
+        }
+
+        boolean existeCategoria = negocioTipo.obtenerTipos().stream().anyMatch(t -> t.getIdTipo() == idtipo);
+
+        if (!existeCategoria) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "La categoria seleccionada no existe"));
+        }
+
+        codigo = codigo.trim();
+
+        if (!negocioProductos.existeProducto(codigo)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "El producto " + codigo + " no existe"));
+        }
+
+        if (!negocioProductos.modificarProducto(codigo, nombre, descripcion, idtipo, precio, stock)) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("mensaje", "No se pudo modificar el producto seleccionado"));
+        }
+
+        return ResponseEntity.ok(Map.of("mensaje", "Producto modificado correctamente"));
+    }
+
+    @PutMapping("activar")
+    public ResponseEntity<?> reactivarProducto(@RequestParam(name = "codigo", required = false) String codigo) {
+
+        if (codigo == null || codigo.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Debe indicar el codigo del producto"));
+        }
+
+        codigo = codigo.trim();
+
+        if (!negocioProductos.existeProducto(codigo)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "El producto " + codigo + " no existe"));
+        }
+
+        if (negocioProductos.estaActivo(codigo)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("mensaje", "El producto ya se encuentra activo"));
+        }
+
+        if (!negocioProductos.reactivarProducto(codigo)) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("mensaje", "No se pudo activar el producto"));
+        }
+
+        return ResponseEntity.ok(Map.of("mensaje", "Producto activado correctamente"));
+    }
+
+    @DeleteMapping("eliminar")
+    public ResponseEntity<?> bajaProducto(@RequestParam(name = "codigo", required = false) String codigo) {
+
+        if (codigo == null || codigo.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Debe indicar el codigo del producto"));
+        }
+
+        codigo = codigo.trim();
+
+        if (!negocioProductos.existeProducto(codigo)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "El producto " + codigo + " no existe"));
+        }
+
+        if (!negocioProductos.estaActivo(codigo)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("mensaje", "El producto ya se encuentra dado de baja"));
+        }
+
+        if (!negocioProductos.bajaProducto(codigo)) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("mensaje", "No se pudo dar de baja el producto"));
+        }
+
+        return ResponseEntity.ok(Map.of("mensaje", "Producto dado de baja correctamente"));
+    }
 
     @GetMapping("Productos")
     public ResponseEntity<ArrayList<Productos>> obtenerProductos(

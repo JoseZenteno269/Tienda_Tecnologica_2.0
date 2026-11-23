@@ -1,16 +1,16 @@
-const host = "http://localhost:8080/api/Compras";
+import { API_URL, leerMensaje, mostrarMensaje, crearCelda, crearButton, crearCeldaControl, crearCeldaBadgeEstado } from "./Funciones.js";
 
-import { crearCelda, crearCeldaImg, crearButton, crearInput, crearCeldaControl, crearCeldaBadgeEstado } from "./Funciones.js";
+const host = `${API_URL}/Compras`;
 
 const mensaje = document.getElementById("lbl-mensaje");
-mensaje.textContent = "";
+mostrarMensaje(mensaje, "");
 
 async function tablaCompras() {
     try {
-        const respuesta_comp = await fetch(`${host}/${"Compras"}`);
+        const respuesta_comp = await fetch(`${host}/Compras`);
 
         if (!respuesta_comp.ok) {
-            mensaje.textContent = "No se conecto a la Base de Datos (Error en respuesta: " + respuesta_comp.status + ")";
+            mostrarMensaje(mensaje, "No se conecto a la Base de Datos (Error en respuesta: " + respuesta_comp.status + ")");
             return;
         }
 
@@ -26,53 +26,61 @@ async function tablaCompras() {
             const fecha = crearCelda(`${dia}-${mes}-${anio}`);
             const estado = crearCeldaBadgeEstado(comp.estado);
             const total = crearCelda("$" + comp.total);
-            const btncancelar = crearCeldaControl(crearButton("Cancelar", ""));
-            const btnverdetalle = crearCeldaControl(crearButton("Ver Detalle", ""));
+
+            const yaCancelada = (comp.estado || "").trim().toLowerCase() === "cancelado";
+            const btnCancelarElem = crearButton(yaCancelada ? "Cancelada" : "Cancelar", "");
+            btnCancelarElem.disabled = yaCancelada;
+
+            const btnVerDetalleElem = crearButton("Ver Detalle", "");
 
             tr.appendChild(idcompra);
             tr.appendChild(fecha);
             tr.appendChild(estado);
             tr.appendChild(total);
-            tr.appendChild(btncancelar);
-            tr.appendChild(btnverdetalle);
+            tr.appendChild(crearCeldaControl(btnCancelarElem));
+            tr.appendChild(crearCeldaControl(btnVerDetalleElem));
 
             tabla_compras.appendChild(tr);
 
-            btnverdetalle.addEventListener("click", async () => {
+            btnVerDetalleElem.addEventListener("click", () => {
                 sessionStorage.setItem("IdCompra", comp.idCompra);
                 window.location.href = "DetalleCompras.html";
             });
 
-            btncancelar.addEventListener("click", async () => {
+            btnCancelarElem.addEventListener("click", async () => {
+                if (yaCancelada) {
+                    return;
+                }
+
                 try {
-                    const respuesta_cancelar = await fetch(`${host}/${"cancelar"}`, {
+                    const respuesta_cancelar = await fetch(`${host}/cancelar`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ idCompra: parseInt(comp.idCompra) })
                     });
 
-                    const datos = await respuesta_cancelar.json();
+                    const texto = await leerMensaje(respuesta_cancelar);
 
                     if (!respuesta_cancelar.ok) {
-                        mensaje.textContent = datos.mensaje;
+                        mostrarMensaje(mensaje, texto || "Error al cancelar la compra");
                         return;
                     }
 
-                    mensaje.textContent = datos.mensaje;
+                    mostrarMensaje(mensaje, texto || "Compra cancelada con exito", true);
                     await tablaCompras();
                 }
                 catch (error) {
-                    mensaje.textContent = "No se pudo conectar a las Base de Datos";
+                    mostrarMensaje(mensaje, "No se pudo conectar a la Base de Datos");
                 }
             });
         });
 
     }
     catch (error) {
-        mensaje.textContent = "No se pudo conectar a la Base de Datos";
+        mostrarMensaje(mensaje, "No se pudo conectar a la Base de Datos");
     }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
     await tablaCompras();
-}); 
+});
